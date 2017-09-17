@@ -58,7 +58,7 @@ class SparrowTest < Minitest::Test
     assert_equal '123', c.config[:mkey]
   end
 
-  def xtest_connection_endpoint_and_timeout
+  def test_connection_endpoint_and_timeout
     c = Connection.new
     assert_equal Connection::DEFAULTS[:api_endpoint], c.config[:api_endpoint]
     assert_equal Connection::DEFAULTS[:mkey], c.config[:mkey]
