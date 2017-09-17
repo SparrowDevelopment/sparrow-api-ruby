@@ -2,8 +2,8 @@ require "sparrow/version"
 
 module Sparrow
   class Connection
+    ENV_PREFIX="SPARROW_"
     DEFAULTS={
-      :env_mkey_name=>'SPARROW_MKEY', 
       :api_endpoint=>'https://secure.sparrowone.com/Payments/Services_api.aspx', 
       :timeout=>30,
       :mkey=>nil
@@ -14,18 +14,15 @@ module Sparrow
     def initialize(**options)
       @config = {}
       DEFAULTS.each do |k,v|
-        @config[k] = options.has_key?(k) ? options[k] : v
-      end
-      if(!@config[:mkey])
-        if(ENV.has_key?(@config[:env_mkey_name]))
-          @config[:mkey] = ENV[@config[:env_mkey_name]].dup
+        ek = "#{ENV_PREFIX}#{k.to_s.upcase}"
+        @config[k] = (options.has_key?(k) ? options[k] : (ENV.has_key?(ek) ? ENV[ek].dup : v ))
+        if(@config[k].is_a? String) 
+          @config[k].strip!
         end
       end
-      if(!@config[:mkey] or !@config[:mkey].is_a? String)
-        raise ConnectionError.new("Invalid mkey")
-      end
-      @config[:mkey].strip!
-      if(@config[:mkey].length==0)
+      @config[:timeout] = @config[:timeout].to_i
+      
+      if(!@config[:mkey] or !@config[:mkey].is_a? String or @config[:mkey].length==0)
         raise ConnectionError.new("Invalid mkey")
       end
     end

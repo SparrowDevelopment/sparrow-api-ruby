@@ -22,7 +22,7 @@ class SparrowTest < Minitest::Test
   end
   
   def test_connection_fails_with_no_key
-    ENV.delete(Connection::DEFAULTS[:env_mkey_name])
+    ENV.delete("#{Connection::ENV_PREFIX}MKEY")
     assert_raises ConnectionError do
       Connection.new
     end
@@ -48,7 +48,7 @@ class SparrowTest < Minitest::Test
   end
 
   def test_connection_env_mkey
-    ENV[Connection::DEFAULTS[:env_mkey_name]]='123'
+    ENV["#{Connection::ENV_PREFIX}MKEY"]='123'
     c = Connection.new
     assert_equal '123', c.config[:mkey]
   end
@@ -59,9 +59,12 @@ class SparrowTest < Minitest::Test
   end
 
   def test_connection_endpoint_and_timeout
-    c = Connection.new
+    Connection::DEFAULTS.each do |k,v|
+      ENV.delete("#{Connection::ENV_PREFIX}#{k.to_s.upcase}")
+    end
+    c = Connection.new :mkey=>'123'
     assert_equal Connection::DEFAULTS[:api_endpoint], c.config[:api_endpoint]
-    assert_equal Connection::DEFAULTS[:mkey], c.config[:mkey]
+    assert_equal '123', c.config[:mkey]
     assert_equal Connection::DEFAULTS[:timeout], c.config[:timeout]
   end
 
