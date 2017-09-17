@@ -1,8 +1,6 @@
-# Sparrow
+# Sparrow API for Ruby
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sparrow`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem is the official Ruby binding to the Sparrow payment gateway API.
 
 ## Installation
 
@@ -22,7 +20,38 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To use the Sparrow API, include this at the top of your file:
+
+```
+require 'sparrow'
+include Sparrow
+```
+
+Then, create a `Connection` instance. `Connection.new` requires an API key. This key can be specified in the following ways:
+
+Directly:
+
+```
+Connection.new(:mkey=>'123')
+```
+
+Via environment:
+
+```
+ENV['SPARROW_MKEY] = '123'
+...
+Connection.new
+```
+
+Or via `.env`:
+
+```
+SPARROW_MKEY=123
+```
+
+```
+Connection.new
+```
 
 ## Development
 
