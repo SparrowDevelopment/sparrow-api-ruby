@@ -14,13 +14,15 @@ class SparrowTest < Minitest::Test
     ENV.each do |k, v|
       if(!@env.has_key?(k))
         ENV.delete(k)
-      else
-        ENV[k] = @env[k]
       end
+    end
+    @env.each do |k,v|
+      ENV[k] = @env[k]
     end
   end
   
   def test_connection_fails_with_no_key
+    ENV.delete(Connection::ENV_MKEY_NAME)
     assert_raises ConnectionError do
       Connection.new
     end
@@ -47,6 +49,11 @@ class SparrowTest < Minitest::Test
 
   def test_connection_env_mkey
     ENV[Connection::ENV_MKEY_NAME]='123'
+    c = Connection.new
+    assert_equal '123', c.mkey
+  end
+
+  def test_connection_dotenv
     c = Connection.new
     assert_equal '123', c.mkey
   end
