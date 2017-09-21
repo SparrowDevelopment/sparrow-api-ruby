@@ -1,27 +1,11 @@
 require "test_helper"
 require 'date'
+require 'test_base'
+require 'pp'
 
 include Sparrow
 
-class SparrowSimpleSaleTest < Minitest::Test
-  def setup
-    @env = {}
-    ENV.each do |k, v|
-      @env[k] = v
-    end
-  end
-  
-  def teardown
-    ENV.each do |k, v|
-      if(!@env.has_key?(k))
-        ENV.delete(k)
-      end
-    end
-    @env.each do |k,v|
-      ENV[k] = @env[k]
-    end
-  end
-
+class SimpleSaleTest < TestBase
   def test_simple_sale_invalid_key
     c = Connection.new :mkey=>'123'
     ci = CardInfo.new({
@@ -30,9 +14,7 @@ class SparrowSimpleSaleTest < Minitest::Test
       :cvv=>'999',
     })
     res = c.simple_sale(9.95, ci)
-    assert_equal 1, res.response
-    assert_true res.trans_id.is_a? String
-    assert_true 'sale', res.type
+    assert_equal 3, res[:response]
   end
 
   
@@ -44,9 +26,9 @@ class SparrowSimpleSaleTest < Minitest::Test
       :cvv=>'999',
     })
     res = c.simple_sale(9.95, ci)
-    assert_equal 1, res.response
-    assert_true res.trans_id.is_a? String
-    assert_true 'sale', res.type
+    assert_equal 1, res[:response]
+    assert res[:transid].is_a? String
+    assert_equal 'sale', res[:type]
   end
 
 end

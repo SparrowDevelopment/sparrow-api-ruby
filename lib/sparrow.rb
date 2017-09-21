@@ -1,5 +1,6 @@
 require "sparrow/version"
 require 'rest-client'
+require 'date'
 
 module Sparrow
   class Connection
@@ -29,32 +30,40 @@ module Sparrow
     end
     
     def simple_sale(amount, card_info)
-      uri = URI(@config[:api_endpoint])
-      res = Net::HTTP.post_form(uri, 'q' => 'ruby', 'max' => '50')
-      
-      $response = $this->client->request('POST', '', [
-        'form_params' => array_merge([
-          'mkey'=>$this->config->mkey,
-          'transtype' => 'sale',
-          'amount'=>$amount,
-        ], $ci->toArray())
-      ]);
-      $code = $response->getStatusCode();
-      if($code!=200)
-      {
-        throw new ConnectionException("Sparrow API is not responding.");
-      }
-      $qs = $response->getBody()->getContents();
-      $r = new Response($qs);
-      return $r;
-      
-      Response.new
+      args = {mkey: @config[:mkey], transtype: 'sale', amount: amount};
+      args.merge!(card_info.to_hash)
+      res = RestClient.post @config[:api_endpoint], args
+      if(res.code != 200)
+        raise ConnectionError.new("Sparrow API is not responding properly.")
+      end
+      parsed = CGI::parse(res.body)
+      params = {}
+      parsed.each do |k,v|
+        params[k.to_sym] = v[0]
+      end
+      params[:response] = params[:response].to_i
+      params
     end
   end
   
   class CardInfo
-    def initialize(**options)
+    attr_accessor :number, :expiration, :cvv
+    
+    def initialize(info)
+      @number = info[:number]
+      @expiration = info[:expiration]
+      @cvv = info[:cvv]
     end
+    
+    def to_hash
+      {
+        cardnum: @number,
+        cardexp: @expiration.is_a?(Date) ? @expiration.strftime('%y%m') : @expiration,
+        cvv: @cvv,
+        
+      }
+    end
+    
   end
   
   class Response
