@@ -70,7 +70,6 @@ class SharedAPITest
     end
 
     puts "Payment Plans:"
-
     puts "Add:"
     plan = api.add_plan(planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019")
     log plan
@@ -83,14 +82,23 @@ class SharedAPITest
     deleted_plan = api.delete_plan(token: plan['plantoken'])
     log deleted_plan
 
+    puts "Assign"
+    customer_for_plan = api.addcustomer(firstname: "Dude", lastname: "Fella", paytype_1: 'creditcard', cardnum_1: "4111111111111111", cardexp_1: '1019')
+    log customer_for_plan
+    assignable_plan = api.add_plan(planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019")
+    log assignable_plan
+    assigned_plan = api.assign_plan(customertoken: customer_for_plan['customertoken'], plantoken: assignable_plan['plantoken'], paymenttoken: customer_for_plan['paymenttoken_1'] )
+    log assigned_plan, /Can't assign plan with no sequences/, "API Fault; no way to add sequence"
+
+    puts "Update Assignment"
+    updated_assignment = api.update_assignment(assignmenttoken: assigned_plan[''], )
+    puts "Cancel Assignment"
+    puts "Payment Plan Sequences:"
+    puts "Build:"
+    puts "--fault: Not implemented in API (no transtype)"
     # Datavault
     #
-    # Payment Plans
-    # build sequence
     # plan notification settings
-    # addsequence
-    # updatesequence
-    # deletesequence
     # deleteplan
     # assignplan
     # updateassignment
