@@ -31,7 +31,7 @@ module SparrowOne
 
     def add_customer(params)
       with_error_handling do
-        validate(params, requires: [:firstname, :lastname, :paytype_1, :cardnum_1, :cardexp_1])
+        validate(params, requires: [:firstname, :lastname])
         post("addcustomer", params)
       end
     end
@@ -44,6 +44,34 @@ module SparrowOne
       end
     end
     alias_method :updatecustomer, :update_customer
+
+    def add_payment_type(params)
+      with_error_handling do
+        unless params.keys.select { |key| key.to_s =~ /token_\d*/ }.any?
+          raise RequestError, "Add payment type must have customer token `token` and payment type token `token_#`."
+        end
+        validate(params, requires: [:token, :operationtype_1])
+        post("updatecustomer", params)
+      end
+    end
+
+    def delete_payment_type(params)
+        with_error_handling do
+          unless params.keys.select { |key| key.to_s =~ /token_\d*/ }.any?
+            raise RequestError, "Add payment type must have customer token `token` and payment type token `token_#`."
+          end
+          validate(params, requires: [:token, :operationtype_1])
+          post("updatecustomer", params)
+        end
+      end
+
+    def get_customer(params)
+      with_error_handling do
+        validate(params, requires: [:token])
+        post("getcustomer", params)
+      end
+    end
+    alias_method :getcustomer, :get_customer
 
     def delete_payment_type(params)
       with_error_handling do
