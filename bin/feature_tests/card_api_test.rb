@@ -99,7 +99,9 @@ class CardAPITest
     log balance_one, /Operation type is not supported/, "Unexpected API Behavior: Operation Type not supported by payment processor:"
 
     puts "\nCard Chargeback"
-    puts "--Fault: Not tested"
+    sale_for_chargeback = api.sale(cardnum: '4111111111111111', cardexp: '1019', amount: '111.25', cvv: '999')
+    chargeback_one = api.chargeback(transid: sale_for_chargeback['transid'], reason: "Card reported lost")
+    log chargeback_one, /Card reported lost/
 
     puts "\nCard Bad Transactions"
 
