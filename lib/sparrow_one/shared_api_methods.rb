@@ -111,7 +111,7 @@ module SparrowOne
         post("deleteplan", params)
       end
     end
-    alias_method :delteplan, :delete_plan
+    alias_method :deleteplan, :delete_plan
 
     def assign_plan(params)
       with_error_handling do

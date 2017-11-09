@@ -69,15 +69,23 @@ class SharedAPITest
       puts "--Fault: deleted customer has status #{missing_customer['CustomerStatus']}"
     end
 
+    puts "Payment Plans:"
+
+    puts "Add:"
+    plan = api.add_plan(planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019")
+    log plan
+
+    puts "Update"
+    updated_plan = api.updateplan(token: plan['plantoken'], plandesc: "You get to have it while you're still buying it")
+    log updated_plan
+
+    puts "Delete"
+    deleted_plan = api.delete_plan(token: plan['plantoken'])
+    log deleted_plan
 
     # Datavault
-    # updatecustomer-addpaytype
-    # updatecustomer-deletepaytype
-    # getcustomer
     #
     # Payment Plans
-    # create plan
-    # update plan
     # build sequence
     # plan notification settings
     # addsequence
