@@ -1,72 +1,65 @@
-# Sparrow API for Ruby
+# SparrowOne
 
-This gem is the official Ruby binding to the Sparrow payment gateway API.
+This gem provides an interface to the API described at http://foresight.sparrowone.com/.
 
-## Installation
+## Getting Started
 
-Add this line to your application's Gemfile:
+To use the Sparrow API, you will need to get one or more Merchant Keys (mKeys).
+An mKey can be found inside the gateway under `Admin > System Configuration > Transaction Routing`.
 
-```ruby
-gem 'sparrow'
+Each mKey represents one payment type, such as Card, ACH / eCheck, eWallet, or Star Card. Each payment type also has its own API interface in this library - for example, to use an mKey associated with the Card payment type, you would use the SparrowOne::CardAPI interface. Each API type is described in this document. Additionally, some API calls are availble across all payment types; these are described under the heading "Shared API Methods".
+
+You can specify your mKey when you create a SparrowOne API instance: for example, `SparrowOne::CardAPI.new('your_mkey_goes_here')`. Alternatively, if you are only using one mKey, you can set the environment variable SPARROW_MKEY, and this gem will use that mKey by default.
+
+### Response Objects
+
+All SparrowOne::API instance methods return a Response object. Response has these methods:
+  - `#status` returns an HTTP status code. If a request fails client-side validation, this will be 400.
+  - `#ok?` returns true if the HTTP status code of the request is 2xx; false otherwise.
+  - `#success?` returns true if a transaction was successfully completed; false otherwise.
+  - `#text_response` returns a plaintext description of the request state. This will include error messages (including client-side validation errors) where applicable, or "SUCCESS" if the request was successful.
+  - `#transaction` returns nil if the request was not successful. Otherwise, it returns a hash containing the following keys from the Sparrow API: `[:transid, :authcode, :xref, :type, :avsresponse, :cvvresponse, :coderesponse, :codedescription]`
+
+### Client-side Validation
+This gem performs client-side validation of request data prior to making a network call. An API method will validate the format of the parameters it is given, and will ensure that all required parameters are in the list. Detailed parameter formats and requirements are in the main API documentation at http://foresight.sparrowone.com/.
+
+If a request fails client-side validation, a Response object will be returned carrying status '400' and a text_response describing the detected error.
+
+### Examples
+
+Example CardAPI `#sale` request:
+```
+  api = SparrowOne::CardAPI.new('card_mkey_goes_here')
+  response = api.sale(cardnum: '1234567890123456', cardexp: '1220', amount: '29.95')
+  response.success?
+    # => true
+  response.transaction
+    # => {:transid=>"10883041", :authcode=>"123456", :xref=>"3856105057", :type=>"sale", :avsresponse=>nil, :cvvresponse=>"M", :coderesponse=>"100", :codedescription=>"Transaction was Approved"}
 ```
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install sparrow
-
-## Usage
-
-To use the Sparrow API, include this at the top of your file:
-
+Example CardAPI `#sale` request missing required parameters:
 ```
-require 'sparrow'
-include Sparrow
+api = SparrowOne::CardAPI.new('card_mkey_goes_here')
+response = api.sale(cardnum: '1234567890123456')
+response.success?
+  # => false
+response.ok?
+  # => true
+response.transaction
+  # => nil
+response.text_response
+  # => 'Error in request sale: missing parameters: cardexp, amount'
 ```
 
-Then, create a `Connection` instance. `Connection.new` requires an API key. This key can be specified in the following ways:
-
-Directly:
-
-```
-Connection.new(:mkey=>'123')
-```
-
-Via environment:
-
-```
-ENV['SPARROW_MKEY] = '123'
-...
-Connection.new
-```
-
-Or via `.env`:
-
-```
-SPARROW_MKEY=123
-```
-
-```
-Connection.new
-```
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/sparrow. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+### CardAPI Methods
+  - `#sale`: requires cardnum, cardexp, amount
+  - `#auth`: requires cardnum, cardexp, amount
+  - `#capture`: requires transid, amount
+  - `#offline`: requires cardnum, cardexp, amount, authcode, authdate
+  - `#balance`: requires cardnum
+  - `#verify`: requires cardnum, cardexp. `amount` is automatically set to '0.00'.
+  - `#passenger_sale`: requires cardnum, amount, cardexp, amount, cardexp, passengername, airportcode1, airlinecodenumber, ticketnumber, flightdatecoupon1, flightdeparturetimecoupon1, approvalcode, authcharindicator, validationcode, authresponsecode
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Sparrow project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/sparrow/blob/master/CODE_OF_CONDUCT.md).
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
