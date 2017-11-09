@@ -114,3 +114,17 @@ class CardAPITest
     log bad_capture, /more than authorized/
   end
 end
+
+class CardFiservAPITest < CardAPITest
+
+  def api
+    @api ||= SparrowOne::FiservAPI.new(TEST_KEYS[:credit_card])
+  end
+
+  def run
+    puts "***** Fiserv API Calls Begin *****"
+    super
+    puts "*****  Fiserv API Calls End  *****"
+  end
+
+end

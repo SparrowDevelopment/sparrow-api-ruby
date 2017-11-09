@@ -27,6 +27,10 @@ if ARGV[0].to_s.match(/c/) || @run_all
   CardAPITest.run({ verbose: @verbose })
 end
 
+if ARGV[0].to_s.match(/f/) || @run_all
+  CardFiservAPITest.run({ verbose: @verbose })
+end
+
 if ARGV[0].to_s.match(/z/) || @run_all
   CashAPITest.run({ verbose: @verbose })
 end
