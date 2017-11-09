@@ -8,7 +8,9 @@ module SparrowOne
     end
 
     def sale(params)
-      raise SparrowOne::RequestError.new("The Services eWallet API can be used to process credit operations only.")
+      with_error_handling do
+        raise SparrowOne::RequestError.new("The Services eWallet API can be used to process credit operations only.")
+      end
     end
   end
 end
