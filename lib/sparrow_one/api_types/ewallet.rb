@@ -6,5 +6,9 @@ module SparrowOne
         post("credit", params)
       end
     end
+
+    def sale(params)
+      raise SparrowOne::RequestError.new("The Services eWallet API can be used to process credit operations only.")
+    end
   end
 end
