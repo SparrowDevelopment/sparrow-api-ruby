@@ -1,3 +1,5 @@
+require_relative '../spec_helper'
+
 describe SparrowOne::API do
   it "exists" do
     expect(defined?(SparrowOne::API)).to eq("constant")
