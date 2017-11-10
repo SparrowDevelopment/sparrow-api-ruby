@@ -69,9 +69,7 @@ class CardFiservAPITest < CardAPITest
   end
 
   def run
-    puts "***** Fiserv API Calls Begin *****"
     super
-    puts "*****  Fiserv API Calls End  *****"
   end
 
 end

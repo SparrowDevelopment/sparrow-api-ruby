@@ -20,7 +20,7 @@ class SparrowOne::TestRunner
         puts "OK    #{self.api.class}##{method}"
       end
     else
-      puts "**Unexpected error in #{self.api.class}##{method}: received #{response.to_json}"
+      puts "XX    Unexpected error in #{self.api.class}##{method}: received #{response.to_json}"
     end
     response
   end
