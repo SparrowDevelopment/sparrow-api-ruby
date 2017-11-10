@@ -14,8 +14,6 @@ class SharedAPITest < SparrowOne::TestRunner
 
     get_customer = specify(:get_customer, { token: ach_customer['customertoken'] })
 
-    decrypt = fault("No way to specify custom encrypted fields", :decrypt, { token: ach_customer['customertoken'], fieldname: "account_1" })
-
     deleted_paytype = specify(:delete_payment_type, { token: ach_customer['customertoken'], operationtype_1: "deletepaytype", token_1: ach_customer['paymenttoken_1'], achaccounttype_1: 'savings' })
 
     delete_customer = specify(:delete_customer, { token: ach_customer['customertoken'] })
@@ -49,5 +47,10 @@ class SharedAPITest < SparrowOne::TestRunner
     updated_invoice = specify(:update_invoice, { invoicenumber: invoice['invoicenumber'], invoicestatus: "active" })
     paid_invoice = specify(:pay_invoice, { invoicenumber: invoice['invoicenumber'], cardnum: "4111111111111111", cardexp: '1019' })
     canceled_invoice = specify(:cancel_invoice, { invoicenumber: cancelable_invoice['invoicenumber'], invoicestatusreason: "Allergic to product" })
+
+    # Faulty examples
+    # No way to add a custom encrypted field. Confirmed by RL
+    decrypt = skip(:decrypt, { token: ach_customer['customertoken'], fieldname: "account_1" })
+
   end
 end

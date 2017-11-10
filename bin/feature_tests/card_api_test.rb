@@ -37,18 +37,6 @@ class CardAPITest < SparrowOne::TestRunner
     capture_one = specify(:capture, { transid: auth_three['transid'], amount: '9.25' })
     capture_two = specify(:capture, { transid: auth_four['transid'], amount: '3.25' })
 
-    # Card Verifications
-    verification_one = fault("Verification giving 'bad amount' error", :verify, { cardnum: '4111111111111111', cardexp: '1019', cvv: '999' })
-    verification_two = fault("Verification giving 'bad amount' error",:verify, { cardnum: '4111111111111111', cardexp: '1019', cvv: '999', firstname: "Joe" })
-
-    # Card Passenger Sales
-    passenger_one = fault("Passenger sale giving 'Operation type not supported'", :passenger_sale, {cardnum: '4111111111111111', cardexp: '1019', cvv: '999', passengername: "Captain Kangaroo", airportcode1: "LAS", amount: "99.95",
-                                       airlinecodenumber: 'SWA', ticketnumber: "0123456789", flightdatecoupon1: "09/30/2019", flightdeparturetimecoupon1: "09:30",
-                                       approvalcode: '123456', authcharindicator: 'E', validationcode: '1234', authresponsecode: "AB"})
-
-    # Card Balances
-    fault("Balance giving 'Operation type not supported'", :balance, { cardnum: '4111111111111111' })
-
     # Card Chargebacks
     sale_for_chargeback = specify(:sale, { cardnum: '4111111111111111', cardexp: '1019', amount: '111.25', cvv: '999' })
     chargeback_one = specify(:chargeback, { transid: sale_for_chargeback['transid'], reason: "Card reported lost" })
@@ -59,6 +47,19 @@ class CardAPITest < SparrowOne::TestRunner
     specify(:void, { transid: sale_two["transid"] }, /Void operation must follow/)
     auth_five = specify(:auth, { cardnum: '4111111111111111', cardexp: '1019', amount: '19.25', cvv: '999' } )
     specify(:capture, { transid: auth_five['transid'], amount: '199.95' }, /Cannot capture more than authorized/)
+
+    # Faulty examples
+    # Balance is throwing "Operation type not supported". Confirmed by RL.
+    skip(:balance, { cardnum: '4111111111111111' })
+    # Verify is throwing "Invalid amount" when offered '0.00'
+    skip(:verify, { cardnum: '4111111111111111', cardexp: '1019', cvv: '999' })
+    skip(:verify, { cardnum: '4111111111111111', cardexp: '1019', cvv: '999', firstname: "Joe" })
+    # Passengersale throwing "Operation type not supported". Confirmed by RL.
+    passenger_one = skip("Passenger sale giving 'Operation type not supported'", :passenger_sale, {cardnum: '4111111111111111', cardexp: '1019', cvv: '999', passengername: "Captain Kangaroo", airportcode1: "LAS", amount: "99.95",
+                                       airlinecodenumber: 'SWA', ticketnumber: "0123456789", flightdatecoupon1: "09/30/2019", flightdeparturetimecoupon1: "09:30",
+                                       approvalcode: '123456', authcharindicator: 'E', validationcode: '1234', authresponsecode: "AB"})
+
+    
   end
 end
 

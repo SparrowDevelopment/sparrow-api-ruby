@@ -12,16 +12,17 @@ class EcheckAPITest < SparrowOne::TestRunner
     sale_four = specify(:sale, { bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "4.56", company: "Falling Man Studios",
                           firstname: "Mark", lastname: "Tabler", address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US" })
 
-    # Transaction lookup problems - need troubleshooting
-    # void1 = specify(:void, { transid: sale_three["transid"] })
-    # void2 = specify(:void, { transid: sale_four["transid"] })
-    # refund1 = specify(:refund, {transid: sale_one["transid"], bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.25",
-    #                      firstname: "Mark", lastname: "Tabler", address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US" })
-    # refund2 = specify(:refund, { transid: sale_two["transid"], bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.01",
-    #                      firstname: "Mark", lastname: "Tabler", address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US" })
-    # credit_one = specify(:credit, { firstname: "Mark", lastname: "Tabler", bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.23", company: "Falling Man Studios",
-    #                      transid: sale_three['transid'], address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US" })
-
-    bad_sale = specify(:sale, { firstname: "Mark", lastname: "Tabler", bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal" }, /missing parameters/i)
-      end
+    # Faulty examples
+    # Transaction lookups not working for ACH / Echeck transactions. Confirmed by RL.
+    # I note that "credit" operations work for the ACH API, where a `transid` is not required,
+    # but failing on the Echeck API where a `transid` is mandatory.
+    void1 = skip(:void, { transid: sale_three["transid"] })
+    void2 = skip(:void, { transid: sale_four["transid"] })
+    refund1 = skip(:refund, {transid: sale_one["transid"], bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.25",
+                         firstname: "Mark", lastname: "Tabler", address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US" })
+    refund2 = skip(:refund, { transid: sale_two["transid"], bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.01",
+                         firstname: "Mark", lastname: "Tabler", address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US" })
+    credit_one = skip(:credit, { firstname: "Mark", lastname: "Tabler", bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.23", company: "Falling Man Studios",
+                                 transid: sale_three['transid'], address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US" })
+  end
 end

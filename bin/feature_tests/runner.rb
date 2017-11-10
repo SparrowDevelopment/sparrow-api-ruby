@@ -7,8 +7,8 @@ class SparrowOne::TestRunner
     @verbose = options[:verbose]
   end
 
-  def fault(explanation, method, params, matcher = //)
-      puts "--    Fault: #{explanation}\n      (#{self.api.class}##{method})" unless @verbose
+  def skip(method, params, matcher = //)
+      puts "--    Skipping (#{self.api.class}##{method})" unless @verbose
   end
 
   def specify(method, params, matcher = /success/i)
