@@ -62,22 +62,48 @@ More examples can be found in the EXAMPLES.md file.
   - `#verify`: requires cardnum, cardexp. `amount` is automatically set to '0.00'.
   - `#passenger_sale`: requires cardnum, amount, cardexp, amount, cardexp, passengername, airportcode1, airlinecodenumber, ticketnumber, flightdatecoupon1, flightdeparturetimecoupon1, approvalcode, authcharindicator, validationcode, authresponsecode
 
+### FiservAPI Methods
+The interface for the FiservAPI is identical to the interface for the CardAPI.
+
 ### ACHAPI Methods
-   - `sale`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount, firstname, lastname
-   - `refund`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount
-   - `credit`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount
+  - `sale`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount, firstname, lastname
+  - `refund`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount
+  - `credit`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount
 
 ### EcheckAPI Methods
-   - `sale`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
-   - `refund`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
-   - `credit`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
+ - `sale`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
+  - `refund`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
+ - `credit`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
 
 ### EwalletAPI Methods
-    - `credit`: requires ewalletaccount, amount
+  - `credit`: requires ewalletaccount, amount
   Please note that the EWallet API interface can only issue credits. For sales, you must use the Checkout API: The customer must be directed to the PayPal Express Checkout page where they will login to their PayPal account to pay securely.
 
 ### StarcardAPI Methods
     - `sale`: requires cardnum, :cardexp, :amount, :CID
+
+### Data Vault Methods
+These methods are for interacting with the Data Vault, and will work with any of this gem's API objects.
+  - `add_customer`: requires firstname, lastname
+  - `get_customer`: requires token
+  - `update_customer`: requires token
+  - `delete_customer`: requires token
+  - `add_payment_type`: requires token, token_#, operationtype_#
+  - `delete_payment_type`: requires token, token_#, operationtype_#
+  - `add_plan`: requires planname, plandesc, startdate
+  - `update_plan`: requires token
+  - `add_sequence`: requires token, operationtype_1='addsequence', sequence_1, amount_1, scheduletype_1, scheduleday_1, duration_1
+  - `assign_plan`: requires customertoken, plantoken, paymenttoken
+  - `update_assignment`: requires assignmenttoken
+  - `cancel_assignment`: requires assignmenttoken
+  - `delete_plan`: requires token
+  - `create_invoice`: requires invoicedate, currency, invoicestatus
+  - `get_invoice`: requires invoicenumber
+  - `update_invoice`: requires invoicenumber
+  - `pay_invoice`: requires invoicenumber
+  - `cancel_invoice`: requires invoicenumber, invoicestatusreason
+  - `cancel_invoice_by_customer`: requires invoicenumber, invoicestatusreason
+  - `decrypt`: requires fieldname, token
 
 ## License
 

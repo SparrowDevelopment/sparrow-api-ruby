@@ -46,7 +46,10 @@ class SharedAPITest < SparrowOne::TestRunner
 
     updated_invoice = specify(:update_invoice, { invoicenumber: invoice['invoicenumber'], invoicestatus: "active" })
     paid_invoice = specify(:pay_invoice, { invoicenumber: invoice['invoicenumber'], cardnum: "4111111111111111", cardexp: '1019' })
-    canceled_invoice = specify(:cancel_invoice, { invoicenumber: cancelable_invoice['invoicenumber'], invoicestatusreason: "Allergic to product" })
+    canceled_invoice = specify(:cancel_invoice, { invoicenumber: cancelable_invoice['invoicenumber'], invoicestatusreason: "Customer allergic to product" })
+
+    customer_cancelable_invoice = specify(:create_invoice, { invoicedate: "10/15/2018", currency: "USD", invoiceamount: "101.95", invoicestatus: "active" })
+    customer_canceled_invoice = specify(:cancel_invoice_by_customer, { invoicenumber: customer_cancelable_invoice['invoicenumber'], invoicestatusreason: "Product allergic to customer" })
 
     # Faulty examples
     # No way to add a custom encrypted field. Confirmed by RL

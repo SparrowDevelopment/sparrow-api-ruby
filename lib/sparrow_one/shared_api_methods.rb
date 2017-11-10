@@ -187,5 +187,12 @@ module SparrowOne
     end
     alias_method :cancelinvoice, :cancel_invoice
 
+    def cancel_invoice_by_customer(params)
+      with_error_handling do
+        validate(params, requires: [:invoicenumber, :invoicestatusreason])
+        post("cancelinvoicebycustomer", params)
+      end
+    end
+
   end
 end
