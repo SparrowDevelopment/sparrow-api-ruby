@@ -23,34 +23,24 @@ class SharedAPITest < SparrowOne::TestRunner
     missing_customer = specify(:getcustomer, { token: ach_customer['customertoken'] })
 
     plan = specify(:add_plan, { planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019" })
-    sequencable_plan = specify(:add_plan, { planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019" })
-
     updated_plan = specify(:updateplan, { token: plan['plantoken'], plandesc: "You get to have it while you're still buying it" })
 
+    sequencable_plan = specify(:add_plan, { planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019" })
     sequenced_plan = specify(:add_sequence, {
       token: sequencable_plan['plantoken'],
       operationtype_1: "addsequence",
-      operationtype_2: "addsequence",
       sequence_1: '1',
-      sequence_2: '2',
-      amount_1: '50',
-      amount_2: '100',
-      scheduletype_1: 'custom',
-      scheduletype_2: 'monthly',
+      amount_1: '50.00',
+      scheduletype_1: 'monthly',
       scheduleday_1: '7',
-      scheduleday_2: '1',
-      duration_1: '52',
-      duration_2: '26',
-      productid_1: 'abc',
-      productid_2: 'def',
+      duration_1: '12',
       description_1: 'Bi-weekly',
-      description_2: 'Monthly',
     })
 
-    deleted_plan = specify(:delete_plan, { token: plan['plantoken'] })
-
     customer_for_plan = specify(:addcustomer, { firstname: "Dude", lastname: "Fella", paytype_1: 'creditcard', cardnum_1: "4111111111111111", cardexp_1: '1019' })
-    assigned_plan = fault("Internal processing error", :assign_plan, { customertoken: customer_for_plan['customertoken'], plantoken: sequenced_plan['plantoken'], paymenttoken: customer_for_plan['paymenttoken_1'], amount: "800.00"  })
+    assigned_plan = specify(:assign_plan, { customertoken: customer_for_plan['customertoken'], plantoken: sequencable_plan['plantoken'], paymenttoken: customer_for_plan['paymenttoken_1'], amount: "100.00"  })
+
+    deleted_plan = specify(:delete_plan, { token: plan['plantoken'] })
 
     invoice = specify(:create_invoice, { invoicedate: "10/15/2018", currency: "USD", invoiceamount: "212.95", invoicestatus: "draft" })
     cancelable_invoice = specify(:create_invoice, { invoicedate: "10/15/2018", currency: "USD", invoiceamount: "101.95", invoicestatus: "active" })

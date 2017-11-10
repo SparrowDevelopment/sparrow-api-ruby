@@ -21,6 +21,7 @@ class SparrowOne::TestRunner
       end
     else
       puts "XX    Unexpected error in #{self.api.class}##{method}: received #{response.to_json}"
+      puts "      Params: #{params}"
     end
     response
   end
