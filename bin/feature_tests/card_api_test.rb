@@ -38,16 +38,16 @@ class CardAPITest < SparrowOne::TestRunner
     capture_two = specify(:capture, { transid: auth_four['transid'], amount: '3.25' })
 
     # Card Verifications
-    verification_one = specify(:verify, { cardnum: '4111111111111111', cardexp: '1019', cvv: '999' })
-    verification_two = specify(:verify, { cardnum: '4111111111111111', cardexp: '1019', cvv: '999', firstname: "Joe" })
+    verification_one = fault("Verification giving 'bad amount' error", :verify, { cardnum: '4111111111111111', cardexp: '1019', cvv: '999' })
+    verification_two = fault("Verification giving 'bad amount' error",:verify, { cardnum: '4111111111111111', cardexp: '1019', cvv: '999', firstname: "Joe" })
 
     # Card Passenger Sales
-    passenger_one = api.passenger_sale(cardnum: '4111111111111111', cardexp: '1019', cvv: '999', passengername: "Captain Kangaroo", airportcode1: "LAS", amount: "99.95",
+    passenger_one = fault("Passenger sale giving 'Operation type not supported'", :passenger_sale, {cardnum: '4111111111111111', cardexp: '1019', cvv: '999', passengername: "Captain Kangaroo", airportcode1: "LAS", amount: "99.95",
                                        airlinecodenumber: 'SWA', ticketnumber: "0123456789", flightdatecoupon1: "09/30/2019", flightdeparturetimecoupon1: "09:30",
-                                       approvalcode: '123456', authcharindicator: 'E', validationcode: '1234', authresponsecode: "AB")
+                                       approvalcode: '123456', authcharindicator: 'E', validationcode: '1234', authresponsecode: "AB"})
 
     # Card Balances
-    specify(:balance, { cardnum: '4111111111111111' })
+    fault("Balance giving 'Operation type not supported'", :balance, { cardnum: '4111111111111111' })
 
     # Card Chargebacks
     sale_for_chargeback = specify(:sale, { cardnum: '4111111111111111', cardexp: '1019', amount: '111.25', cvv: '999' })
@@ -55,10 +55,10 @@ class CardAPITest < SparrowOne::TestRunner
 
 
     # Deliberate failure transactions
-    specify(:sale, { firstname: "Mark", lastname: "Tabler", bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.23" })
-    specify(:void, { transid: sale_two["transid"] })
-    auth_five = specify(:auth, { cardnum: '4111111111111111', cardexp: '1019', amount: '19.25', cvv: '999' })
-    specify(:capture, { transid: auth_five['transid'], amount: '199.95' })
+    specify(:sale, { firstname: "Mark", lastname: "Tabler", bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.23" }, /missing parameters: cardnum, cardexp/)
+    specify(:void, { transid: sale_two["transid"] }, /Void operation must follow/)
+    auth_five = specify(:auth, { cardnum: '4111111111111111', cardexp: '1019', amount: '19.25', cvv: '999' } )
+    specify(:capture, { transid: auth_five['transid'], amount: '199.95' }, /Cannot capture more than authorized/)
   end
 end
 

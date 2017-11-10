@@ -7,37 +7,27 @@ class SharedAPITest < SparrowOne::TestRunner
     puts "\nCustomer Operations:"
     puts "Adding:"
     card_customer = specify(:addcustomer, { firstname: "Dude", lastname: "Fella", paytype_1: 'creditcard', cardnum_1: "4111111111111111", cardexp_1: '1019' })
-    log card_customer
 
     ach_customer = specify(:addcustomer, { firstname: "Captain", lastname: "Kangaroo", paytype_1: 'ach', bankname_1: 'Hypothetical S&L', achaccounttype_1: 'checking', achaccountsubtype_1: 'personal', routing_1: '123456789', account_1: '987654321' })
-    log ach_customer
 
     generic_customer = specify(:addcustomer, { firstname: "Rhubarb", lastname: "McGillicutty" })
-    log generic_customer
 
     puts "Updating:"
     update_customer = specify(:updatecustomer, { token: ach_customer['customertoken'], firstname: "Admiral", secret_knock: "shave-anda-haircut" })
-    log update_customer
 
     added_paytype = specify(:add_payment_type, { token: ach_customer['customertoken'], operationtype_1: "updatepaytype", token_1: ach_customer['paymenttoken_1'], achaccounttype_1: 'savings' })
-    log added_paytype
 
     missing_param_updated_paytype = specify(:add_payment_type, { token: ach_customer['customertoken'], operationtype_1: "updatepaytype", achaccounttype_1: 'savings' })
-    log missing_param_updated_paytype, /must have.+payment type token `token_#/
-    puts "Getting:"
+        puts "Getting:"
     get_customer = specify(:get_customer, { token: ach_customer['customertoken'] })
-    log get_customer, /Processed/
 
     puts "Decrypt custom field:"
     decrypt = specify(:decrypt, { token: ach_customer['customertoken'], fieldname: "account_1" })
-    log decrypt, /Custom\ field.+not\ found/, 'Unexpected API behavior: cannot store custom field during update'
 
     puts "Deleting:"
     deleted_paytype = specify(:delete_payment_type, { token: ach_customer['customertoken'], operationtype_1: "deletepaytype", token_1: ach_customer['paymenttoken_1'], achaccounttype_1: 'savings' })
-    log deleted_paytype
 
     delete_customer = specify(:delete_customer, { token: ach_customer['customertoken'] })
-    log delete_customer
 
     missing_customer = specify(:getcustomer, { token: ach_customer['customertoken'] })
     if missing_customer['CustomerStatus'] == 'Archived'
@@ -49,13 +39,10 @@ class SharedAPITest < SparrowOne::TestRunner
     puts "\nPayment Plans:"
     puts "Add:"
     plan = specify(:add_plan, { planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019" })
-    log plan
-    sequencable_plan = specify(:add_plan, { planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019" })
-    log sequencable_plan
+        sequencable_plan = specify(:add_plan, { planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019" })
 
     puts "Update"
     updated_plan = specify(:updateplan, { token: plan['plantoken'], plandesc: "You get to have it while you're still buying it" })
-    log updated_plan
 
     sequenced_plan = api.add_sequence(token: sequencable_plan['plantoken'],
       operationtype_1: "addsequence",
@@ -75,47 +62,35 @@ class SharedAPITest < SparrowOne::TestRunner
       description_1: 'Bi-weekly',
       description_2: 'Monthly',
     )
-    log sequenced_plan
-    puts "Delete"
+        puts "Delete"
     deleted_plan = specify(:delete_plan, { token: plan['plantoken'] })
-    log deleted_plan
 
     puts "Assign"
     customer_for_plan = specify(:addcustomer, { firstname: "Dude", lastname: "Fella", paytype_1: 'creditcard', cardnum_1: "4111111111111111", cardexp_1: '1019' })
-    log customer_for_plan
-    assigned_plan = specify(:assign_plan, { customertoken: customer_for_plan['customertoken'], plantoken: sequenced_plan['plantoken'], paymenttoken: customer_for_plan['paymenttoken_1'], amount: "800.00"  })
-    log assigned_plan, /Internal processing error/, "API fault - 'try again later'"
+        assigned_plan = specify(:assign_plan, { customertoken: customer_for_plan['customertoken'], plantoken: sequenced_plan['plantoken'], paymenttoken: customer_for_plan['paymenttoken_1'], amount: "800.00"  })
 
     puts "Update Assignment"
     # updated_assignment = specify(:update_assignment, { assignmenttoken: assigned_plan[''], description: "Updated description"  })
-    # log updated_assignment
-    puts "--fault: Internal processing error creating assignment"
+    #     puts "--fault: Internal processing error creating assignment"
     puts "Cancel Assignment"
     # canceled_assignment = specify(:cancel_assignment, { assignmenttoken: assigned_plan[''], description: "Updated description"  })
-    # log updated_assignment
-    puts "--fault: Internal processing error creating assignment"
+    #     puts "--fault: Internal processing error creating assignment"
     # Datavault
     #
     puts "\nInvoices"
     puts "Creating:"
     invoice = specify(:create_invoice, { invoicedate: "10/15/2018", currency: "USD", invoiceamount: "212.95", invoicestatus: "draft" })
-    log invoice
-    cancelable_invoice = specify(:create_invoice, { invoicedate: "10/15/2018", currency: "USD", invoiceamount: "101.95", invoicestatus: "active" })
-    log cancelable_invoice
-    retrieved_invoice = specify(:get_invoice, { invoicenumber: invoice['invoicenumber'] })
-    log retrieved_invoice
+        cancelable_invoice = specify(:create_invoice, { invoicedate: "10/15/2018", currency: "USD", invoiceamount: "101.95", invoicestatus: "active" })
+        retrieved_invoice = specify(:get_invoice, { invoicenumber: invoice['invoicenumber'] })
 
     puts "Updating:"
     updated_invoice = specify(:update_invoice, { invoicenumber: invoice['invoicenumber'], invoicestatus: "active" })
-    log updated_invoice
 
     puts "Paying:"
     paid_invoice = specify(:pay_invoice, { invoicenumber: invoice['invoicenumber'], cardnum: "4111111111111111", cardexp: '1019' })
-    log paid_invoice
 
 
     puts "Canceling:"
     canceled_invoice = specify(:cancel_invoice, { invoicenumber: cancelable_invoice['invoicenumber'], invoicestatusreason: "Allergic to product" })
-    log canceled_invoice
-  end
+      end
 end

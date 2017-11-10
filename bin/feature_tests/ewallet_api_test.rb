@@ -6,14 +6,11 @@ class EwalletAPITest < SparrowOne::TestRunner
   def run
     puts "\neWallet Credits"
     credit_one = specify(:credit, { ewallettype: 'PayPal', ewalletaccount: "user@example.com", amount: '7.25' })
-    log credit_one
 
     credit_two = specify(:credit, { ewallettype: 'PayPal', ewalletaccount: "user@example.com", amount: '4.25', currency: "USD" })
-    log credit_two
 
     sale_one = specify(:sale, { ewallettype: 'PayPal', ewalletaccount: "user@example.com", amount: '4.25', currency: "USD" })
     puts "\neWallet Sale"
-    log sale_one, /credit operations only/, "Expect error: eWallet handles credits only"
 
   end
 end
