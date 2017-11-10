@@ -147,5 +147,45 @@ module SparrowOne
     alias_method :cancelassignment, :cancel_assignment
     alias_method :cancelplanassignment, :cancel_assignment
     alias_method :cancel_plan_assignment, :cancel_assignment
+
+    def create_invoice(params)
+      with_error_handling do
+        validate(params, requires: [:invoicedate, :currency, :invoicestatus])
+        post("createmerchantinvoice", params)
+      end
+    end
+    alias_method :createinvoice, :create_invoice
+
+    def get_invoice(params)
+      with_error_handling do
+        validate(params, requires: [:invoicenumber])
+        post("getinvoice", params)
+      end
+    end
+
+    def update_invoice(params)
+      with_error_handling do
+        validate(params, requires: [:invoicenumber])
+        post("updateinvoice", params)
+      end
+    end
+    alias_method :updateinvoice, :update_invoice
+
+    def pay_invoice(params)
+      with_error_handling do
+        validate(params, requires: [:invoicenumber])
+        post("payinvoice", params)
+      end
+    end
+    alias_method :payinvoice, :pay_invoice
+
+    def cancel_invoice(params)
+      with_error_handling do
+        validate(params, requires: [:invoicenumber, :invoicestatusreason])
+        post("cancelinvoice", params)
+      end
+    end
+    alias_method :cancelinvoice, :cancel_invoice
+
   end
 end
