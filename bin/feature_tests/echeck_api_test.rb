@@ -5,10 +5,10 @@ class EcheckAPITest < SparrowOne::TestRunner
 
   def run
     puts "\nECheck Sales"
-    sale_one = api.sale(firstname: "Mark", lastname: "Tabler", bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.33", transid: '123456', address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US")
+    sale_one = specify(:sale, { firstname: "Mark", lastname: "Tabler", bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.33", transid: '123456', address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US" })
     log sale_one
 
-    sale_two = api.sale(firstname: "Mark", lastname: "Tabler", bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.28", transid: '123456', address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US")
+    sale_two = specify(:sale, { firstname: "Mark", lastname: "Tabler", bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "1.28", transid: '123456', address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US" })
     log sale_two
 
     puts "\nECheck Refunds"
@@ -28,10 +28,10 @@ class EcheckAPITest < SparrowOne::TestRunner
     sale_four = api.sale(bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal", amount: "4.56", company: "Falling Man Studios",
                           firstname: "Mark", lastname: "Tabler", address1: "123 Home Town", city: "Las Vegas", state: "NV", zip: "89108", country: "US")
 
-    void1 = api.void(transid: sale_three["transid"])
+    void1 = specify(:void, { transid: sale_three["transid"] })
     log void1, /Transaction not found/, "Unexpected API Behavior - known good transaction ID is not found"
 
-    void2 = api.void(transid: sale_four["transid"])
+    void2 = specify(:void, { transid: sale_four["transid"] })
     log void2, /Transaction not found/, "Unexpected API Behavior - known good transaction ID is not found"
 
     puts "\nECheck Credit"
@@ -41,7 +41,7 @@ class EcheckAPITest < SparrowOne::TestRunner
 
     puts "\nECheck Bad Transactions (with expected failure types)"
 
-    bad_sale = api.sale(firstname: "Mark", lastname: "Tabler", bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal")
+    bad_sale = specify(:sale, { firstname: "Mark", lastname: "Tabler", bankname: 'First Test Bank', routing: '110000000', account: '1234567890123', achaccounttype: "checking", achaccountsubtype: "personal" })
     log bad_sale, /missing parameters/
   end
 end
