@@ -39,17 +39,19 @@ Example CardAPI `#sale` request:
 
 Example CardAPI `#sale` request missing required parameters:
 ```
-api = SparrowOne::CardAPI.new('card_mkey_goes_here')
-response = api.sale(cardnum: '1234567890123456')
-response.success?
-  # => false
-response.ok?
-  # => true
-response.transaction
-  # => nil
-response.text_response
-  # => 'Error in request sale: missing parameters: cardexp, amount'
+  api = SparrowOne::CardAPI.new('card_mkey_goes_here')
+  response = api.sale(cardnum: '1234567890123456')
+  response.success?
+    # => false
+  response.ok?
+    # => true
+  response.transaction
+    # => nil
+  response.text_response
+    # => 'Error in request sale: missing parameters: cardexp, amount'
 ```
+
+More examples can be found in the EXAMPLES.md file.
 
 ### CardAPI Methods
   - `#sale`: requires cardnum, cardexp, amount
@@ -59,6 +61,23 @@ response.text_response
   - `#balance`: requires cardnum
   - `#verify`: requires cardnum, cardexp. `amount` is automatically set to '0.00'.
   - `#passenger_sale`: requires cardnum, amount, cardexp, amount, cardexp, passengername, airportcode1, airlinecodenumber, ticketnumber, flightdatecoupon1, flightdeparturetimecoupon1, approvalcode, authcharindicator, validationcode, authresponsecode
+
+### ACHAPI Methods
+   - `sale`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount, firstname, lastname
+   - `refund`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount
+   - `credit`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount
+
+### EcheckAPI Methods
+   - `sale`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
+   - `refund`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
+   - `credit`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
+
+### EwalletAPI Methods
+    - `credit`: requires ewalletaccount, amount
+  Please note that the EWallet API interface can only issue credits. For sales, you must use the Checkout API: The customer must be directed to the PayPal Express Checkout page where they will login to their PayPal account to pay securely.
+
+### StarcardAPI Methods
+    - `sale`: requires cardnum, :cardexp, :amount, :CID
 
 ## License
 
