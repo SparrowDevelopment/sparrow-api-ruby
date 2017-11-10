@@ -113,10 +113,10 @@ module SparrowOne
     end
     alias_method :deleteplan, :delete_plan
 
-    def build_sequence(params)
+    def add_sequence(params)
       with_error_handling do
         validate(params, requires: [:token])
-        post("deleteplan", params)
+        post("updateplan", params)
       end
     end
 

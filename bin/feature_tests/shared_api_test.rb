@@ -27,7 +27,7 @@ class SharedAPITest
   end
 
   def run
-    puts "Customer Operations:"
+    puts "\nCustomer Operations:"
     puts "Adding:"
     card_customer = api.addcustomer(firstname: "Dude", lastname: "Fella", paytype_1: 'creditcard', cardnum_1: "4111111111111111", cardexp_1: '1019')
     log card_customer
@@ -69,15 +69,36 @@ class SharedAPITest
       puts "--Fault: deleted customer has status #{missing_customer['CustomerStatus']}"
     end
 
-    puts "Payment Plans:"
+    puts "\nPayment Plans:"
     puts "Add:"
     plan = api.add_plan(planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019")
     log plan
+    sequencable_plan = api.add_plan(planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019")
+    log sequencable_plan
 
     puts "Update"
     updated_plan = api.updateplan(token: plan['plantoken'], plandesc: "You get to have it while you're still buying it")
     log updated_plan
 
+    sequenced_plan = api.add_sequence(token: sequencable_plan['plantoken'],
+      operationtype_1: "addsequence",
+      operationtype_2: "addsequence",
+      sequence_1: '1',
+      sequence_2: '2',
+      amount_1: '50',
+      amount_2: '100',
+      scheduletype_1: 'custom',
+      scheduletype_2: 'monthly',
+      scheduleday_1: '7',
+      scheduleday_2: '1',
+      duration_1: '52',
+      duration_2: '26',
+      productid_1: 'abc',
+      productid_2: 'def',
+      description_1: 'Bi-weekly',
+      description_2: 'Monthly',
+    )
+    log sequenced_plan
     puts "Delete"
     deleted_plan = api.delete_plan(token: plan['plantoken'])
     log deleted_plan
@@ -85,9 +106,7 @@ class SharedAPITest
     puts "Assign"
     customer_for_plan = api.addcustomer(firstname: "Dude", lastname: "Fella", paytype_1: 'creditcard', cardnum_1: "4111111111111111", cardexp_1: '1019')
     log customer_for_plan
-    assignable_plan = api.add_plan(planname: "Lease program", plandesc: "Kinda like rent-to-own but better", startdate: "01/01/2019")
-    log assignable_plan
-    assigned_plan = api.assign_plan(customertoken: customer_for_plan['customertoken'], plantoken: assignable_plan['plantoken'], paymenttoken: customer_for_plan['paymenttoken_1'] )
+    assigned_plan = api.assign_plan(customertoken: customer_for_plan['customertoken'], plantoken: sequenced_plan['plantoken'], paymenttoken: customer_for_plan['paymenttoken_1'], amount: "800.00" )
     log assigned_plan, /Can't assign plan with no sequences/, "API Fault; no way to add sequence"
 
     puts "Update Assignment"
