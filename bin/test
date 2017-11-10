@@ -3,6 +3,7 @@
 require "bundler/setup"
 require "sparrow_one"
 require_relative "../test_keys"
+require_relative "feature_tests/runner"
 require_relative "feature_tests/card_api_test"
 require_relative "feature_tests/ach_api_test"
 require_relative "feature_tests/echeck_api_test"

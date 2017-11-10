@@ -1,4 +1,4 @@
-class ACHAPITest
+class ACHAPITest < SparrowOne::TestRunner
   def self.run(options)
     self.new(options).run
   end

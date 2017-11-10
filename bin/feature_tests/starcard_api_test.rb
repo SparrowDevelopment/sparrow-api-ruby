@@ -1,27 +1,4 @@
-class StarcardAPITest
-  def self.run(options)
-    self.new(options).run
-  end
-
-  def initialize(options)
-    @verbose = options[:verbose]
-  end
-
-  def log(response, matcher = /success/i, long_notice = "" )
-    if @verbose
-      puts response.to_json
-    end
-    if response['textresponse'].match matcher
-      if long_notice == ""
-        puts "  OK"
-      else
-        puts "  OK (" + long_notice + ")"
-      end
-    else
-      puts "--Fault: Expected #{response['textresponse']} to match #{matcher.to_s}"
-    end
-  end
-
+class StarcardAPITest < SparrowOne::TestRunner
   def api
     @api ||= SparrowOne::StarcardAPI.new(TEST_KEYS[:star_card])
   end
