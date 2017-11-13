@@ -3,13 +3,13 @@ class SparrowOne::SampleGenerator < SparrowOne::TestRunner
     lines = []
     puts "### #{name}\n"
     separator = "~" * 80
-    lines << "\n\nCODE:\n\n#{separator}"
+    lines << "\nCODE:\n\n#{separator}"
     lines << "api.#{method}({"
     params.each do |k, v|
       lines << "  #{k}: '#{v}',"
     end
     lines << "})"
-    lines << "#{separator}\n\nRESULT:\n#{separator}\n\n"
+    lines << "#{separator}\n\nRESULT:\n\n#{separator}\n\n"
     if result.respond_to?(:parsed_response)
       fields = result.parsed_response.keys
     else
@@ -39,13 +39,13 @@ class SparrowOne::SampleGenerator < SparrowOne::TestRunner
   end
 
   def run
-    # examplize_ach
-    # examplize_cards
+    examplize_ach
+    examplize_cards
     examplize_data_vault
-    # examplize_echeck
-    # examplize_ewallet
-    # examplize_fiserv
-    # examplize_starcard
+    examplize_echeck
+    examplize_ewallet
+    examplize_fiserv
+    examplize_starcard
   end
 
   def examplize_ach
@@ -133,7 +133,7 @@ class SparrowOne::SampleGenerator < SparrowOne::TestRunner
   end
 
   def examplize_starcard
-    @api = SparrowOne::StarCardAPI.new(TEST_KEYS[:star_card])
+    @api = SparrowOne::StarcardAPI.new(TEST_KEYS[:star_card])
 
     puts formatted_example("Star Card Simple Sale", :sale, { cardnum: '6019440000011111', amount: '20.00', CID: '52347800001' }, { response: '1', textresponse: 'SUCCESS', transid: '10750791', xref: '3829708548', authcode: '123456', orderid: '', type: 'sale', avsresponse: '', cvvresponse: '', coderesponse: '100', codedescription: 'Transaction was Approved', status: '200' } )
     puts formatted_example("Star Card Advanced Sale", :sale, { amount: '57.85', cardnum: '6019440000011111', CID: '12345678911', cardexp: '1010', cvv: '999', skunumber_1: '5558779', description_1: 'menssweaterblue', amount_1: '50.00', quantity_1: '1', tax: '2.85', shipamount: '5.00', firstname: 'John', lastname: 'Smith', address1: '888 test address', city: 'Los Angeles', country: 'US', state: 'CA', phone: '222-444-2938', shipfirstname: 'John', shiplastname: 'Smith', shipaddress1: '888 test address', shipcity: 'Los Angeles', shipstate: 'CA', shipphone: '2224442938' }, { response: '1', textresponse: 'SUCCESS', transid: '10750808', xref: '3829708587', authcode: '123456', orderid: '11111', type: 'sale', avsresponse: 'N', cvvresponse: '', coderesponse: '100', codedescription: 'Transaction was Approved', status: '200' } )

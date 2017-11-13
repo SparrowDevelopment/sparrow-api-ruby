@@ -1,288 +1,1183 @@
+### ACH Simple Sale
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.sale({
+  bankname: 'First Test Bank',
+  routing: '110000000',
+  account: '1234567890123',
+  achaccounttype: 'checking',
+  achaccountsubtype: 'personal',
+  amount: '9.95',
+  firstname: 'John',
+  lastname: 'Doe"',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '00'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10934180'
+result.xref # => '3865117153'
+result.authcode # => '123456'
+result.type # => 'sale'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### ACH Advanced Sale
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.sale({
+  bankname: 'First Test Bank',
+  routing: '110000000',
+  account: '1234567890123',
+  achaccounttype: 'checking',
+  achaccountsubtype: 'personal',
+  amount: '9.95',
+  orderdesc: 'Order Description',
+  orderid: '11111',
+  firstname: 'John',
+  lastname: 'Doe',
+  company: 'Sparrow One',
+  address1: '16100 N 71st Street',
+  address2: 'Suite 170',
+  city: 'Scottsdale',
+  state: 'AZ',
+  zip: '85254',
+  country: 'US',
+  phone: '7025551234',
+  email: 'john@norepy.com',
+  shipaddress1: '16100 N 72nd Street',
+  shipaddress2: 'Suite 171',
+  shipcity: 'Pheonix',
+  shipstate: 'AZ',
+  shipzip: '85004',
+  shipcountry: 'US',
+  shipphone: '6025551234',
+  shipemail: 'jane@noreply.com',
+  saveclient: 'true',
+  updateclient: 'true',
+  opt_amount_type_1: 'surcharge',
+  opt_amount_value_1: '1.01',
+  opt_amount_percentage_1: '18',
+  birthdate: '01/31/2000',
+  checknumber: '123',
+  driverlicensenumber: '1234567890',
+  driverlicensecountry: 'US',
+  driverlicensestate: 'AZ',
+  sendtransreceipttobillemail: 'true',
+  sendtransreceipttoshipemail: 'true',
+  paymentdescriptor: 'Custom Payment Descriptor',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '00'
+result.textresponse # => 'SUCCESS, Customer with token 'LS8W4RO5S7SZKZCN' successfully updated, Payment transaction successfully assigned to the customer with token 'LS8W4RO5S7SZKZCN''
+result.transid # => '10934181'
+result.xref # => '3865117170'
+result.authcode # => '123456'
+result.orderid # => '11111'
+result.type # => 'sale'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+result.token # => 'LS8W4RO5S7SZKZCN'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Simple Sale
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.sale({
+  amount: '9.95',
+  cardnum: '4111111111111111',
+  cardexp: '1010',
+  cvv: '999',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10934182'
+result.xref # => '3865117200'
+result.authcode # => '123456'
+result.type # => 'sale'
+result.cvvresponse # => 'M'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Advanced Sale
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.sale({
+  amount: '57.85',
+  cardnum: '4111111111111111',
+  cardexp: '1010',
+  cvv: '999',
+  skunumber_1: '5558779',
+  description_1: 'menssweaterblue',
+  amount_1: '50.00',
+  quantity_1: '1',
+  tax: '2.85',
+  shipamount: '5.00',
+  firstname: 'John',
+  lastname: 'Smith',
+  address1: '888 test address',
+  city: 'Los Angeles',
+  country: 'US',
+  state: 'CA',
+  phone: '222-444-2938',
+  shipfirstname: 'John',
+  shiplastname: 'Smith',
+  shipaddress1: '888 test address',
+  shipcity: 'Los Angeles',
+  shipstate: 'CA',
+  shipphone: '2224442938',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10934183'
+result.xref # => '3865117234'
+result.authcode # => '123456'
+result.type # => 'sale'
+result.avsresponse # => 'A'
+result.cvvresponse # => 'M'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Simple Auth
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.auth({
+  amount: '9.95',
+  cardnum: '4111111111111111',
+  cardexp: '1010',
+  cvv: '999',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10934184'
+result.xref # => '3865117259'
+result.authcode # => '123456'
+result.type # => 'auth'
+result.cvvresponse # => 'M'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Simple Capture
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.capture({
+  transid: '10934003',
+  amount: '9.25',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10934003'
+result.xref # => '3865034963'
+result.authcode # => '123456'
+result.type # => 'capture'
+result.cvvresponse # => 'M'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Simple Offline Capture
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.offline({
+  amount: '9.95',
+  cardnum: '4111111111111111',
+  cardexp: '1010',
+  cvv: '999',
+  authcode: '987654',
+  authdate: '03/25/2016',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10934185'
+result.xref # => '3865117275'
+result.authcode # => '987654'
+result.type # => 'offline'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Advanced Capture
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.capture({
+  amount: '9.95',
+  transid: '123456',
+  sendtransreceipttobillemail: 'true',
+  orderid: '54321',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '123456'
+result.xref # => '3865035008'
+result.authcode # => '654321'
+result.type # => 'capture'
+result.cvvresponse # => 'M'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Simple Refund
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.refund({
+  transid: '10933995',
+  amount: '1.25',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10933995'
+result.xref # => '3865034307'
+result.authcode # => '123456'
+result.type # => 'refund'
+result.cvvresponse # => 'M'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Advanced Refund
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.refund({
+  transid: '10750789',
+  amount: '9.95',
+  sendtransreceipttobillemail: 'true',
+  sendtransreceipttoshipemail: 'true',
+  sendtransreceipttoemails: 'email@email.com',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10750789'
+result.xref # => '3829708545'
+result.authcode # => '123456'
+result.orderid # => ''
+result.type # => 'refund'
+result.avsresponse # => ''
+result.cvvresponse # => 'M'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Simple Void
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.void({
+  transid: '12345678',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'Transaction Void Successful'
+result.transid # => '10750790'
+result.xref # => '3829708544'
+result.authcode # => '123456'
+result.orderid # => ''
+result.type # => 'void'
+result.avsresponse # => ''
+result.cvvresponse # => 'M'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Simple Credit
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.credit({
+  cardnum: '4111111111111111',
+  cardexp: '1019',
+  amount: '7.25',
+  cvv: '999',
+  authcode: '123456',
+  authdate: '01/31/2017',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10934186'
+result.xref # => '3865117305'
+result.type # => 'credit'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Chargeback
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.chargeback({
+  transid: '10934104',
+  reason: 'Card reported lost',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'Card reported lost'
+result.transid # => '10934104'
+result.xref # => '3865091326'
+result.authcode # => '123456'
+result.type # => 'chargeback'
+result.cvvresponse # => 'M'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Card Balance: Pending
+Card Verification: Pending
+Data Vault Decrypt: Pending
+### Data Vault Advanced Add Customer
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.addcustomer({
+  firstname: 'John',
+  lastname: 'Doe',
+  note: 'Customer Note',
+  address1: '16100 N 71st Street',
+  address2: 'Suite 170',
+  city: 'Scottsdale',
+  state: 'AZ',
+  zip: '85254',
+  country: 'US',
+  email: 'john@norepy.com',
+  shipfirstname: 'Jane',
+  shiplastname: 'Doe',
+  shipcompany: 'Sparrow Two',
+  shipaddress1: '16100 N 72nd Street',
+  shipaddress2: 'Suite 171',
+  shipcity: 'Pheonix',
+  shipstate: 'AZ',
+  shipzip: '85004',
+  shipcountry: 'US',
+  shipphone: '6025551234',
+  shipemail: 'jane@noreply.com',
+  username: 'JohnDoe17101717530877',
+  password: 'Password123',
+  clientuseremail: 'john@norepy.com',
+  paytype_1: 'creditcard',
+  paytype_2: 'check',
+  firstname_1: 'John',
+  firstname_2: 'John',
+  lastname_1: 'Doe',
+  lastname_2: 'Doe',
+  address1_1: '123 Main Street',
+  address1_2: '321 1st Street',
+  address2_1: 'Suite 1',
+  address2_2: 'Suite 2',
+  city_1: 'Pheonix',
+  city_2: 'Scottsdale',
+  state_1: 'AZ',
+  state_2: 'AZ',
+  zip_1: '85111',
+  zip_2: '85222',
+  country_1: 'US',
+  country_2: 'US',
+  phone_1: '6025551234',
+  phone_2: '6025554321',
+  email_1: 'john@norepy.com',
+  email_2: 'jane@noreploy.com',
+  cardnum_1: '4111111111111111',
+  cardnum_2: '4111111111111111',
+  cardexp_1: '1019',
+  cardexp_2: '1019',
+  bankname_1: '',
+  bankname_2: 'First Test Bank',
+  routing_1: '',
+  routing_2: '110000000',
+  account_1: '',
+  account_2: '1234567890123',
+  achaccounttype_1: '',
+  achaccounttype_2: 'personal',
+  payno_1: '1',
+  payno_2: '2',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'User with this name already exists. Please choose another name.'
+result.type # => 'addcustomer'
+result.customertoken # => 'F6OE0IN0I5HSV6AJ'
+result.paymenttoken_1 # => 'CPDFXJGSIZ5AL1WZ'
+result.paymenttoken_2 # => '3KDG1KFL69CE08N0'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Simple Add Customer (With Card)
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.addcustomer({
+  firstname: 'John',
+  lastname: 'Doe',
+  paytype_1: 'creditcard',
+  cardnum_1: '4111111111111111',
+  cardexp_1: '0220',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'Customer with token '4UYWY04RYLHK2CKJ' successfully created'
+result.type # => 'addcustomer'
+result.customertoken # => '4UYWY04RYLHK2CKJ'
+result.paymenttoken_1 # => 'G3HKZYT8W551Z5QY'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Simple Add Customer (With Star Card)
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.addcustomer({
+  firstname: 'John',
+  lastname: 'Doe',
+  paytype_1: 'starcard',
+  cardnum_1: '6019440000011111',
+  CID: '52347800001',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'Customer with token '1A88HBMOK6V605GT' successfully created'
+result.type # => 'addcustomer'
+result.customertoken # => '1A88HBMOK6V605GT'
+result.paymenttoken_1 # => 'KHVXSV22K1IYHC1J'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Simple Add Customer (With Ewallet)
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.addcustomer({
+  firstname: 'John',
+  lastname: 'Doe',
+  paytype_1: 'ewallet',
+  ewallettype_1: 'paypal',
+  ewalletaccount_1: 'email@email.com',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'Customer with token 'H5L32C7FEM931FPO' successfully created'
+result.type # => 'addcustomer'
+result.customertoken # => 'H5L32C7FEM931FPO'
+result.paymenttoken_1 # => '9PV3C00FAZ925C13'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Update Customer
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.updatecustomer({
+  token: 'B31388EA20ABF2776C93',
+  address1: '939 St. Winnie’s st.',
+  city: 'Forest City',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'Customer with token 'O3BEZTT2UHCS7USA' successfully updated'
+result.type # => 'updatecustomer'
+result.customertoken # => 'O3BEZTT2UHCS7USA'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Add Payment Plan
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.add_plan({
+  planname: 'Example Plan Name',
+  plandesc: 'Example Plan Description',
+  startdate: '01/01/2019',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.type # => 'addplan'
+result.plantoken # => '5TD61QRE6CGNZ0HR'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Update Payment Plan
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.updateplan({
+  token: 'FLUVX5ZWY4Z3Z6CA',
+  plandesc: 'Example Plan Description',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.type # => 'updateplan'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Add Payment Plan Sequence
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.add_sequence({
+  token: 'FLUVX5ZWY4Z3Z6CA',
+  operationtype_1: 'addsequence',
+  sequence_1: '1',
+  amount_1: '50.00',
+  scheduletype_1: 'monthly',
+  scheduleday_1: '7',
+  duration_1: '12',
+  description_1: 'Bi-weekly',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.type # => 'updateplan'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Assign Payment Plan
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.assign_plan({
+  customertoken: 'MFIK3XS18Z55ZJVA',
+  plantoken: 'FLUVX5ZWY4Z3Z6CA',
+  paymenttoken: '3T4TNZHGIGYP3YHH',
+  amount: '100.00',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'Success'
+result.type # => 'assignplan'
+result.assignmenttoken # => 'GH4XIH6W7CCW9D8J'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Delete Payment Plan
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.delete_plan({
+  token: 'FLUVX5ZWY4Z3Z6CA',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.type # => 'deleteplan'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Delete Payment Type
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.delete_payment_type({
+  token: 'MFIK3XS18Z55ZJVA',
+  operationtype_1: 'deletepaytype',
+  token_1: '3T4TNZHGIGYP3YHH',
+  achaccounttype_1: 'savings',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'Customer with token 'MFIK3XS18Z55ZJVA' successfully updated'
+result.type # => 'updatecustomer'
+result.customertoken # => 'MFIK3XS18Z55ZJVA'
+result.paymenttoken_1 # => '3T4TNZHGIGYP3YHH'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Delete Customer
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.delete_customer({
+  token: 'MFIK3XS18Z55ZJVA',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.type # => 'deletecustomer'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Create Invoice
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.create_invoice({
+  invoicedate: '10/15/2018',
+  currency: 'USD',
+  invoiceamount: '212.95',
+  invoicestatus: 'draft',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.textresponse # => 'invoice has been successfully created'
+result.invoicenumber # => 'Inv-39566'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Get Invoice
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.get_invoice({
+  invoicenumber: 'Inv-39567',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.textresponse # => 'Success'
+result.invoicenumber # => 'Inv-39567'
+result.invoiceamount # => '212.9500'
+result.currency # => 'USD'
+result.invoicedate # => '10/15/2018'
+result.invoicestatus # => 'Draft'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Update Invoice
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.update_invoice({
+  invoicenumber: 'Inv-39567',
+  invoicestatus: 'active',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.textresponse # => 'Invoice has been successfully updated'
+result.invoicenumber # => 'Inv-39567'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Pay Invoice
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.pay_invoice({
+  invoicenumber: 'Inv-39567',
+  cardnum: '4111111111111111',
+  cardexp: '1019',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.textresponse # => 'Invoice has been successfully paid'
+result.transid # => '10934187'
+result.invoicenumber # => 'Inv-39567'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Data Vault Cancel Invoice
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.cancel_invoice({
+  invoicenumber: 'Inv-39568',
+  invoicestatusreason: 'Customer allergic to product',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.textresponse # => 'invoice has been successfully canceled'
+result.invoicenumber # => 'Inv-39568'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Echeck Simple Sale
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.sale({
+  amount: '9.95',
+  bankname: 'BankofAmerica',
+  routing: '110000000',
+  account: '1234567890123',
+  achaccounttype: 'checking',
+  achaccountsubtype: 'business',
+  company: 'CompanyName',
+  firstname: 'Henry',
+  lastname: 'Johnson',
+  address1: 'Main Street 45',
+  city: 'Scottsdale',
+  zip: '12345',
+  country: 'US',
+  state: 'AZ',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '00'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10934188'
+result.xref # => '3865117428'
+result.authcode # => '123456'
+result.type # => 'sale'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Echeck Advanced Sale
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.sale({
+  amount: '9.95',
+  bankname: 'BankofAmerica',
+  routing: '110000000',
+  account: '1234567890123',
+  achaccounttype: 'checking',
+  achaccountsubtype: 'business',
+  company: 'CompanyName',
+  firstname: 'Henry',
+  lastname: 'Johnson',
+  address1: 'Main Street 45',
+  city: 'Scottsdale',
+  zip: '12345',
+  country: 'US',
+  state: 'AZ',
+  phone: '8526547896',
+  email: 'hjohnson@test.com',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '00'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10934189'
+result.xref # => '3865117441'
+result.authcode # => '123456'
+result.type # => 'sale'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Ewallet Simple Credit
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.credit({
+  ewalletaccount: 'user@example.com',
+  ewallet_type: 'PayPal',
+  amount: '9.95',
+  currency: 'USD',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'Successful'
+result.transid # => '10934190'
+result.xref # => 'XTCFKEWCELK9A'
+result.type # => 'credit'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Fiserv Simple Sale
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.sale({
+  cardnum: '4111111111111111',
+  cardexp: '1019',
+  amount: '9.95',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10934191'
+result.xref # => '3865117552'
+result.authcode # => '123456'
+result.type # => 'sale'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Fiserv Advanced Sale
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.sale({
+  cardnum: '4111111111111111',
+  cardexp: '1019',
+  amount: '9.95',
+  cvv: '999',
+  currency: 'USD',
+  firstname: 'John',
+  lastname: 'Doe',
+  skunumber_1: '123',
+  skunumber_2: '456',
+  description_1: 'Blue widget',
+  description_2: 'Brown widget',
+  amount_1: '1.99',
+  amount_2: '2.99',
+  quantity_1: '1',
+  quantity_2: '2',
+  orderdesc: 'Order Description',
+  orderid: '11111',
+  cardipaddress: '8.8.8.8',
+  tax: '0.25',
+  shipamount: '1.25',
+  ponumber: '22222',
+  company: 'Sparrow One',
+  address1: '16100 N 71st Street',
+  address2: 'Suite 170',
+  city: 'Scottsdale',
+  state: 'AZ',
+  zip: '85254',
+  country: 'US',
+  email: 'john@norepy.com',
+  shipfirstname: 'Jane',
+  shiplastname: 'Doe',
+  shipcompany: 'Sparrow Two',
+  shipaddress1: '16100 N 72nd Street',
+  shipaddress2: 'Suite 171',
+  shipcity: 'Pheonix',
+  shipstate: 'AZ',
+  shipzip: '85004',
+  shipcountry: 'US',
+  shipphone: '6025551234',
+  shipemail: 'jane@noreply.com',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10934192'
+result.xref # => '3865117579'
+result.authcode # => '123456'
+result.orderid # => '11111'
+result.type # => 'sale'
+result.avsresponse # => 'N'
+result.cvvresponse # => 'M'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Star Card Simple Sale
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.sale({
+  cardnum: '6019440000011111',
+  amount: '20.00',
+  CID: '52347800001',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10750791'
+result.xref # => '3829708548'
+result.authcode # => '123456'
+result.orderid # => ''
+result.type # => 'sale'
+result.avsresponse # => ''
+result.cvvresponse # => ''
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Star Card Advanced Sale
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.sale({
+  amount: '57.85',
+  cardnum: '6019440000011111',
+  CID: '12345678911',
+  cardexp: '1010',
+  cvv: '999',
+  skunumber_1: '5558779',
+  description_1: 'menssweaterblue',
+  amount_1: '50.00',
+  quantity_1: '1',
+  tax: '2.85',
+  shipamount: '5.00',
+  firstname: 'John',
+  lastname: 'Smith',
+  address1: '888 test address',
+  city: 'Los Angeles',
+  country: 'US',
+  state: 'CA',
+  phone: '222-444-2938',
+  shipfirstname: 'John',
+  shiplastname: 'Smith',
+  shipaddress1: '888 test address',
+  shipcity: 'Los Angeles',
+  shipstate: 'CA',
+  shipphone: '2224442938',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10750808'
+result.xref # => '3829708587'
+result.authcode # => '123456'
+result.orderid # => '11111'
+result.type # => 'sale'
+result.avsresponse # => 'N'
+result.cvvresponse # => ''
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-SparrowOne::ACHAPI#credit
-api.credit({:firstname=>"Mark", :lastname=>"Tabler", :bankname=>"First Test Bank", :routing=>"110000000", :account=>"1234567890123", :achaccounttype=>"checking", :achaccountsubtype=>"personal", :amount=>"1.23"})
- #=> {"response"=>"00", "textresponse"=>"SUCCESS", "transid"=>"10925935", "xref"=>"3862728102", "authcode"=>"123456", "type"=>"credit", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::ACHAPI#sale
-api.sale({:firstname=>"Mark", :lastname=>"Tabler", :bankname=>"First Test Bank", :routing=>"110000000", :account=>"1234567890123", :achaccounttype=>"checking", :achaccountsubtype=>"personal", :amount=>"1.29"})
- #=> {"response"=>"00", "textresponse"=>"SUCCESS", "transid"=>"10925938", "xref"=>"3862728133", "authcode"=>"123456", "type"=>"sale", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::ACHAPI#sale
-api.sale({:firstname=>"Mark", :lastname=>"Tabler", :bankname=>"First Test Bank", :routing=>"110000000", :account=>"1234567890123", :achaccounttype=>"checking", :achaccountsubtype=>"personal", :company=>"Falling Man Studios", :amount=>"1.23"})
- #=> {"response"=>"00", "textresponse"=>"SUCCESS", "transid"=>"10925939", "xref"=>"3862728158", "authcode"=>"123456", "type"=>"sale", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::ACHAPI#sale
-api.sale({:firstname=>"Mark", :lastname=>"Tabler", :bankname=>"First Test Bank", :routing=>"110000000", :account=>"1234567890123", :achaccounttype=>"checking", :achaccountsubtype=>"personal", :amount=>"7.89"})
- #=> {"response"=>"00", "textresponse"=>"SUCCESS", "transid"=>"10925941", "xref"=>"3862728193", "authcode"=>"123456", "type"=>"sale", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::ACHAPI#sale
-api.sale({:firstname=>"Mark", :lastname=>"Tabler", :bankname=>"First Test Bank", :routing=>"110000000", :account=>"1234567890123", :achaccounttype=>"checking", :achaccountsubtype=>"personal", :amount=>"4.56", :company=>"Falling Man Studios"})
- #=> {"response"=>"00", "textresponse"=>"SUCCESS", "transid"=>"10925942", "xref"=>"3862728218", "authcode"=>"123456", "type"=>"sale", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::ACHAPI#credit
-api.credit({:firstname=>"Mark", :lastname=>"Tabler", :bankname=>"First Test Bank", :routing=>"110000000", :account=>"1234567890123", :achaccounttype=>"checking", :achaccountsubtype=>"personal", :amount=>"1.23", :company=>"Falling Man Studios"})
- #=> {"response"=>"00", "textresponse"=>"SUCCESS", "transid"=>"10925943", "xref"=>"3862728248", "authcode"=>"123456", "type"=>"credit", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#sale
-api.sale({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"1.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925944", "xref"=>"3862728272", "authcode"=>"123456", "type"=>"sale", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#sale
-api.sale({:state=>"NV", :cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"2.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925945", "xref"=>"3862728331", "authcode"=>"123456", "type"=>"sale", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#refund
-api.refund({:transid=>"10925944", :amount=>"1.25"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925944", "xref"=>"3862728272", "authcode"=>"123456", "type"=>"refund", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#refund
-api.refund({:transid=>"10925945", :amount=>"1.00"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925945", "xref"=>"3862728331", "authcode"=>"123456", "type"=>"refund", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#auth
-api.auth({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"3.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925947", "xref"=>"3862728446", "authcode"=>"123456", "type"=>"auth", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#auth
-api.auth({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"4.25", :cvv=>"999", :firstname=>"Joe"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925949", "xref"=>"3862728493", "authcode"=>"123456", "type"=>"auth", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#void
-api.void({:transid=>"10925947"})
- #=> {"response"=>"1", "textresponse"=>"Transaction Void Successful", "transid"=>"10925947", "xref"=>"3862728446", "authcode"=>"123456", "type"=>"void", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#void
-api.void({:transid=>"10925949"})
- #=> {"response"=>"1", "textresponse"=>"Transaction Void Successful", "transid"=>"10925949", "xref"=>"3862728493", "authcode"=>"123456", "type"=>"void", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#offline
-api.offline({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"5.25", :cvv=>"999", :authcode=>"123456", :authdate=>"01/31/2017"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925950", "xref"=>"3862728665", "authcode"=>"123456", "type"=>"offline", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#offline
-api.offline({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"6.25", :cvv=>"999", :authcode=>"123456", :authdate=>"01/31/2017", :firstname=>"Mark"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925951", "xref"=>"3862728725", "authcode"=>"123456", "type"=>"offline", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#credit
-api.credit({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"7.25", :cvv=>"999", :authcode=>"123456", :authdate=>"01/31/2017"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925953", "xref"=>"3862728758", "type"=>"credit", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#credit
-api.credit({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"8.25", :cvv=>"999", :authcode=>"123456", :authdate=>"01/31/2017", :firstname=>"Mark"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925954", "xref"=>"3862728809", "type"=>"credit", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#auth
-api.auth({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"9.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925955", "xref"=>"3862728871", "authcode"=>"123456", "type"=>"auth", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#auth
-api.auth({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"10.25", :cvv=>"999", :firstname=>"Joe"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925956", "xref"=>"3862728922", "authcode"=>"123456", "type"=>"auth", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#capture
-api.capture({:transid=>"10925955", :amount=>"9.25"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925955", "xref"=>"3862728871", "authcode"=>"123456", "type"=>"capture", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#capture
-api.capture({:transid=>"10925956", :amount=>"3.25"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925956", "xref"=>"3862728922", "authcode"=>"123456", "type"=>"capture", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#sale
-api.sale({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"111.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925957", "xref"=>"3862729085", "authcode"=>"123456", "type"=>"sale", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::CardAPI#chargeback
-api.chargeback({:transid=>"10925957", :reason=>"Card reported lost"})
- #=> {"response"=>"1", "textresponse"=>"Card reported lost", "transid"=>"10925957", "xref"=>"3862729085", "authcode"=>"123456", "type"=>"chargeback", "cvvresponse"=>"M", "status"=>"200"}
-
-SparrowOne::CardAPI#auth
-api.auth({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"19.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925958", "xref"=>"3862729156", "authcode"=>"123456", "type"=>"auth", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#sale
-api.sale({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"1.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925960", "xref"=>"3862729206", "authcode"=>"123456", "type"=>"sale", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#sale
-api.sale({:state=>"NV", :cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"2.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925961", "xref"=>"3862729257", "authcode"=>"123456", "type"=>"sale", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#refund
-api.refund({:transid=>"10925960", :amount=>"1.25"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925960", "xref"=>"3862729206", "authcode"=>"123456", "type"=>"refund", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#refund
-api.refund({:transid=>"10925961", :amount=>"1.00"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925961", "xref"=>"3862729257", "authcode"=>"123456", "type"=>"refund", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#auth
-api.auth({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"3.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925962", "xref"=>"3862729395", "authcode"=>"123456", "type"=>"auth", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#auth
-api.auth({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"4.25", :cvv=>"999", :firstname=>"Joe"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925963", "xref"=>"3862729457", "authcode"=>"123456", "type"=>"auth", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#void
-api.void({:transid=>"10925962"})
- #=> {"response"=>"1", "textresponse"=>"Transaction Void Successful", "transid"=>"10925962", "xref"=>"3862729395", "authcode"=>"123456", "type"=>"void", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#void
-api.void({:transid=>"10925963"})
- #=> {"response"=>"1", "textresponse"=>"Transaction Void Successful", "transid"=>"10925963", "xref"=>"3862729457", "authcode"=>"123456", "type"=>"void", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#offline
-api.offline({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"5.25", :cvv=>"999", :authcode=>"123456", :authdate=>"01/31/2017"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925965", "xref"=>"3862729638", "authcode"=>"123456", "type"=>"offline", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#offline
-api.offline({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"6.25", :cvv=>"999", :authcode=>"123456", :authdate=>"01/31/2017", :firstname=>"Mark"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925967", "xref"=>"3862729712", "authcode"=>"123456", "type"=>"offline", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#credit
-api.credit({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"7.25", :cvv=>"999", :authcode=>"123456", :authdate=>"01/31/2017"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925968", "xref"=>"3862729747", "type"=>"credit", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#credit
-api.credit({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"8.25", :cvv=>"999", :authcode=>"123456", :authdate=>"01/31/2017", :firstname=>"Mark"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925969", "xref"=>"3862729783", "type"=>"credit", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#auth
-api.auth({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"9.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925970", "xref"=>"3862729822", "authcode"=>"123456", "type"=>"auth", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#auth
-api.auth({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"10.25", :cvv=>"999", :firstname=>"Joe"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925972", "xref"=>"3862729883", "authcode"=>"123456", "type"=>"auth", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#capture
-api.capture({:transid=>"10925970", :amount=>"9.25"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925970", "xref"=>"3862729822", "authcode"=>"123456", "type"=>"capture", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#capture
-api.capture({:transid=>"10925972", :amount=>"3.25"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925972", "xref"=>"3862729883", "authcode"=>"123456", "type"=>"capture", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#sale
-api.sale({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"111.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925976", "xref"=>"3862730030", "authcode"=>"123456", "type"=>"sale", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::FiservAPI#chargeback
-api.chargeback({:transid=>"10925976", :reason=>"Card reported lost"})
- #=> {"response"=>"1", "textresponse"=>"Card reported lost", "transid"=>"10925976", "xref"=>"3862730030", "authcode"=>"123456", "type"=>"chargeback", "cvvresponse"=>"M", "status"=>"200"}
-
-SparrowOne::FiservAPI#auth
-api.auth({:cardnum=>"4111111111111111", :cardexp=>"1019", :amount=>"19.25", :cvv=>"999"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "transid"=>"10925979", "xref"=>"3862730118", "authcode"=>"123456", "type"=>"auth", "cvvresponse"=>"M", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::EcheckAPI#sale
-api.sale({:firstname=>"Mark", :lastname=>"Tabler", :bankname=>"First Test Bank", :routing=>"110000000", :account=>"1234567890123", :achaccounttype=>"checking", :achaccountsubtype=>"personal", :amount=>"1.33", :transid=>"123456", :address1=>"123 Home Town", :city=>"Las Vegas", :state=>"NV", :zip=>"89108", :country=>"US"})
- #=> {"response"=>"00", "textresponse"=>"SUCCESS", "transid"=>"10925981", "xref"=>"3862730192", "authcode"=>"123456", "type"=>"sale", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::EcheckAPI#sale
-api.sale({:firstname=>"Mark", :lastname=>"Tabler", :bankname=>"First Test Bank", :routing=>"110000000", :account=>"1234567890123", :achaccounttype=>"checking", :achaccountsubtype=>"personal", :amount=>"1.28", :transid=>"123456", :address1=>"123 Home Town", :city=>"Las Vegas", :state=>"NV", :zip=>"89108", :country=>"US"})
- #=> {"response"=>"00", "textresponse"=>"SUCCESS", "transid"=>"10925982", "xref"=>"3862730221", "authcode"=>"123456", "type"=>"sale", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::EcheckAPI#sale
-api.sale({:bankname=>"First Test Bank", :routing=>"110000000", :account=>"1234567890123", :achaccounttype=>"checking", :achaccountsubtype=>"personal", :amount=>"7.89", :firstname=>"Mark", :lastname=>"Tabler", :address1=>"123 Home Town", :city=>"Las Vegas", :state=>"NV", :zip=>"89108", :country=>"US"})
- #=> {"response"=>"00", "textresponse"=>"SUCCESS", "transid"=>"10925983", "xref"=>"3862730239", "authcode"=>"123456", "type"=>"sale", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::EcheckAPI#sale
-api.sale({:bankname=>"First Test Bank", :routing=>"110000000", :account=>"1234567890123", :achaccounttype=>"checking", :achaccountsubtype=>"personal", :amount=>"4.56", :company=>"Falling Man Studios", :firstname=>"Mark", :lastname=>"Tabler", :address1=>"123 Home Town", :city=>"Las Vegas", :state=>"NV", :zip=>"89108", :country=>"US"})
- #=> {"response"=>"00", "textresponse"=>"SUCCESS", "transid"=>"10925984", "xref"=>"3862730262", "authcode"=>"123456", "type"=>"sale", "coderesponse"=>"100", "codedescription"=>"Transaction was Approved", "status"=>"200"}
-
-SparrowOne::EwalletAPI#credit
-api.credit({:ewallettype=>"PayPal", :ewalletaccount=>"user@example.com", :amount=>"7.25"})
- #=> {"response"=>"1", "textresponse"=>"Successful", "transid"=>"10925985", "xref"=>"VS3VF87TZRHM4", "type"=>"credit", "status"=>"200"}
-
-SparrowOne::EwalletAPI#credit
-api.credit({:ewallettype=>"PayPal", :ewalletaccount=>"user@example.com", :amount=>"4.25", :currency=>"USD"})
- #=> {"response"=>"1", "textresponse"=>"Successful", "transid"=>"10925987", "xref"=>"XRE2HESY86QTL", "type"=>"credit", "status"=>"200"}
-
-SparrowOne::CardAPI#addcustomer
-api.addcustomer({:firstname=>"Dude", :lastname=>"Fella", :paytype_1=>"creditcard", :cardnum_1=>"4111111111111111", :cardexp_1=>"1019"})
- #=> {"response"=>"1", "textresponse"=>"Customer with token 'XKPRH6DGWX9CJMSA' successfully created", "type"=>"addcustomer", "customertoken"=>"XKPRH6DGWX9CJMSA", "paymenttoken_1"=>"R21B5KI878451B0M"}
-
-SparrowOne::CardAPI#addcustomer
-api.addcustomer({:firstname=>"Captain", :lastname=>"Kangaroo", :paytype_1=>"ach", :bankname_1=>"Hypothetical S&L", :achaccounttype_1=>"checking", :achaccountsubtype_1=>"personal", :routing_1=>"123456789", :account_1=>"987654321"})
- #=> {"response"=>"1", "textresponse"=>"Customer with token '47CU0GUEJTC0HF2G' successfully created", "type"=>"addcustomer", "customertoken"=>"47CU0GUEJTC0HF2G", "paymenttoken_1"=>"PXXAP6P0E55HYHA3"}
-
-SparrowOne::CardAPI#addcustomer
-api.addcustomer({:firstname=>"Rhubarb", :lastname=>"McGillicutty"})
- #=> {"response"=>"1", "textresponse"=>"Customer with token 'D7PXYK7SEBSQQ89L' successfully created", "type"=>"addcustomer", "customertoken"=>"D7PXYK7SEBSQQ89L"}
-
-SparrowOne::CardAPI#updatecustomer
-api.updatecustomer({:token=>"47CU0GUEJTC0HF2G", :firstname=>"Admiral", :secret_knock=>"shave-anda-haircut"})
- #=> {"response"=>"1", "textresponse"=>"Customer with token '47CU0GUEJTC0HF2G' successfully updated", "type"=>"updatecustomer", "customertoken"=>"47CU0GUEJTC0HF2G"}
-
-SparrowOne::CardAPI#add_payment_type
-api.add_payment_type({:token=>"47CU0GUEJTC0HF2G", :operationtype_1=>"updatepaytype", :token_1=>"PXXAP6P0E55HYHA3", :achaccounttype_1=>"savings"})
- #=> {"response"=>"1", "textresponse"=>"Customer with token '47CU0GUEJTC0HF2G' successfully updated", "type"=>"updatecustomer", "customertoken"=>"47CU0GUEJTC0HF2G", "paymenttoken_1"=>"PXXAP6P0E55HYHA3"}
-
-SparrowOne::CardAPI#get_customer
-api.get_customer({:token=>"47CU0GUEJTC0HF2G"})
- #=> {"response"=>"1", "textresponse"=>"Processed", "customertoken"=>"47CU0GUEJTC0HF2G", "CustomerStatus"=>"Active", "firstname"=>"Admiral", "lastname"=>"Kangaroo", "paytype_1"=>"Ach", "payno_1"=>"1", "cardexp_1"=>"1299", "account_1"=>"*****4321", "useAccountUpdater_1"=>"False", "token_1"=>"PXXAP6P0E55HYHA3"}
-
-SparrowOne::CardAPI#delete_payment_type
-api.delete_payment_type({:token=>"47CU0GUEJTC0HF2G", :operationtype_1=>"deletepaytype", :token_1=>"PXXAP6P0E55HYHA3", :achaccounttype_1=>"savings"})
- #=> {"response"=>"1", "textresponse"=>"Customer with token '47CU0GUEJTC0HF2G' successfully updated", "type"=>"updatecustomer", "customertoken"=>"47CU0GUEJTC0HF2G", "paymenttoken_1"=>"PXXAP6P0E55HYHA3"}
-
-SparrowOne::CardAPI#delete_customer
-api.delete_customer({:token=>"47CU0GUEJTC0HF2G"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "type"=>"deletecustomer"}
-
-SparrowOne::CardAPI#getcustomer
-api.getcustomer({:token=>"47CU0GUEJTC0HF2G"})
- #=> {"response"=>"1", "textresponse"=>"Processed", "customertoken"=>"47CU0GUEJTC0HF2G", "CustomerStatus"=>"Archived", "firstname"=>"Admiral", "lastname"=>"Kangaroo"}
-
-SparrowOne::CardAPI#add_plan
-api.add_plan({:planname=>"Lease program", :plandesc=>"Kinda like rent-to-own but better", :startdate=>"01/01/2019"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "type"=>"addplan", "plantoken"=>"RQTTVK1NCQTICHPV"}
-
-SparrowOne::CardAPI#updateplan
-api.updateplan({:token=>"RQTTVK1NCQTICHPV", :plandesc=>"You get to have it while you're still buying it"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "type"=>"updateplan"}
-
-SparrowOne::CardAPI#add_plan
-api.add_plan({:planname=>"Lease program", :plandesc=>"Kinda like rent-to-own but better", :startdate=>"01/01/2019"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "type"=>"addplan", "plantoken"=>"7W9L74MG4I7421R9"}
-
-SparrowOne::CardAPI#add_sequence
-api.add_sequence({:token=>"7W9L74MG4I7421R9", :operationtype_1=>"addsequence", :sequence_1=>"1", :amount_1=>"50.00", :scheduletype_1=>"monthly", :scheduleday_1=>"7", :duration_1=>"12", :description_1=>"Bi-weekly"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "type"=>"updateplan"}
-
-SparrowOne::CardAPI#addcustomer
-api.addcustomer({:firstname=>"Dude", :lastname=>"Fella", :paytype_1=>"creditcard", :cardnum_1=>"4111111111111111", :cardexp_1=>"1019"})
- #=> {"response"=>"1", "textresponse"=>"Customer with token 'FWJ0BA83HURNVKN8' successfully created", "type"=>"addcustomer", "customertoken"=>"FWJ0BA83HURNVKN8", "paymenttoken_1"=>"O6XE2GQ7RMP4KMPC"}
-
-SparrowOne::CardAPI#assign_plan
-api.assign_plan({:customertoken=>"FWJ0BA83HURNVKN8", :plantoken=>"7W9L74MG4I7421R9", :paymenttoken=>"O6XE2GQ7RMP4KMPC", :amount=>"100.00"})
- #=> {"response"=>"1", "textresponse"=>"Success", "type"=>"assignplan", "assignmenttoken"=>"8SOKRG02FBVH0YQ6"}
-
-SparrowOne::CardAPI#delete_plan
-api.delete_plan({:token=>"RQTTVK1NCQTICHPV"})
- #=> {"response"=>"1", "textresponse"=>"SUCCESS", "type"=>"deleteplan"}
-
-SparrowOne::CardAPI#create_invoice
-api.create_invoice({:invoicedate=>"10/15/2018", :currency=>"USD", :invoiceamount=>"212.95", :invoicestatus=>"draft"})
- #=> {"textresponse"=>"invoice has been successfully created", "invoicenumber"=>"Inv-39436"}
-
-SparrowOne::CardAPI#create_invoice
-api.create_invoice({:invoicedate=>"10/15/2018", :currency=>"USD", :invoiceamount=>"101.95", :invoicestatus=>"active"})
- #=> {"textresponse"=>"invoice has been successfully created", "invoicenumber"=>"Inv-39437"}
-
-SparrowOne::CardAPI#get_invoice
-api.get_invoice({:invoicenumber=>"Inv-39436"})
- #=> {"textresponse"=>"Success", "invoicenumber"=>"Inv-39436", "invoiceamount"=>"212.9500", "currency"=>"USD", "invoicedate"=>"10/15/2018", "invoicestatus"=>"Draft"}
-
-SparrowOne::CardAPI#update_invoice
-api.update_invoice({:invoicenumber=>"Inv-39436", :invoicestatus=>"active"})
- #=> {"textresponse"=>"Invoice has been successfully updated", "invoicenumber"=>"Inv-39436"}
-
-SparrowOne::CardAPI#pay_invoice
-api.pay_invoice({:invoicenumber=>"Inv-39436", :cardnum=>"4111111111111111", :cardexp=>"1019"})
- #=> {"textresponse"=>"Invoice has been successfully paid", "transid"=>"10925991", "invoicenumber"=>"Inv-39436"}
-
-SparrowOne::CardAPI#cancel_invoice
-api.cancel_invoice({:invoicenumber=>"Inv-39437", :invoicestatusreason=>"Allergic to product"})
- #=> {"textresponse"=>"invoice has been successfully canceled", "invoicenumber"=>"Inv-39437"}
