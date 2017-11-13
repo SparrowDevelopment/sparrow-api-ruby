@@ -21,8 +21,8 @@ RESULT:
 
 result.response # => '00'
 result.textresponse # => 'SUCCESS'
-result.transid # => '10934180'
-result.xref # => '3865117153'
+result.transid # => '10934194'
+result.xref # => '3865124470'
 result.authcode # => '123456'
 result.type # => 'sale'
 result.coderesponse # => '100'
@@ -86,8 +86,8 @@ RESULT:
 
 result.response # => '00'
 result.textresponse # => 'SUCCESS, Customer with token 'LS8W4RO5S7SZKZCN' successfully updated, Payment transaction successfully assigned to the customer with token 'LS8W4RO5S7SZKZCN''
-result.transid # => '10934181'
-result.xref # => '3865117170'
+result.transid # => '10934195'
+result.xref # => '3865124488'
 result.authcode # => '123456'
 result.orderid # => '11111'
 result.type # => 'sale'
@@ -117,8 +117,8 @@ RESULT:
 
 result.response # => '1'
 result.textresponse # => 'SUCCESS'
-result.transid # => '10934182'
-result.xref # => '3865117200'
+result.transid # => '10934196'
+result.xref # => '3865124503'
 result.authcode # => '123456'
 result.type # => 'sale'
 result.cvvresponse # => 'M'
@@ -166,8 +166,8 @@ RESULT:
 
 result.response # => '1'
 result.textresponse # => 'SUCCESS'
-result.transid # => '10934183'
-result.xref # => '3865117234'
+result.transid # => '10934197'
+result.xref # => '3865124529'
 result.authcode # => '123456'
 result.type # => 'sale'
 result.avsresponse # => 'A'
@@ -197,8 +197,8 @@ RESULT:
 
 result.response # => '1'
 result.textresponse # => 'SUCCESS'
-result.transid # => '10934184'
-result.xref # => '3865117259'
+result.transid # => '10934198'
+result.xref # => '3865124549'
 result.authcode # => '123456'
 result.type # => 'auth'
 result.cvvresponse # => 'M'
@@ -257,8 +257,8 @@ RESULT:
 
 result.response # => '1'
 result.textresponse # => 'SUCCESS'
-result.transid # => '10934185'
-result.xref # => '3865117275'
+result.transid # => '10934199'
+result.xref # => '3865124571'
 result.authcode # => '987654'
 result.type # => 'offline'
 result.coderesponse # => '100'
@@ -408,8 +408,8 @@ RESULT:
 
 result.response # => '1'
 result.textresponse # => 'SUCCESS'
-result.transid # => '10934186'
-result.xref # => '3865117305'
+result.transid # => '10934200'
+result.xref # => '3865124593'
 result.type # => 'credit'
 result.coderesponse # => '100'
 result.codedescription # => 'Transaction was Approved'
@@ -439,6 +439,57 @@ result.xref # => '3865091326'
 result.authcode # => '123456'
 result.type # => 'chargeback'
 result.cvvresponse # => 'M'
+result.status # => '200'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Card Passenger Sale
+
+CODE:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+api.passenger_sale({
+  cardnum: '4111111111111111',
+  cardexp: '1019',
+  amount: '9.95',
+  cvv: '999',
+  passengername: 'John Doe',
+  stopovercode1: 'O',
+  airportcode1: 'LAS',
+  airportcode2: 'CDG',
+  airportcode3: 'IAD',
+  airportcode4: 'CPH',
+  carriercoupon4: 'AA;BB',
+  airlinecodenumber: 'AA0',
+  ticketnumber: '1234567890',
+  classofservicecoupon4: '00;AA',
+  flightdatecoupon1: '01/31/2017',
+  flightdeparturetimecoupon1: '23:59',
+  addressverificationcode: 'A',
+  approvalcode: '123456',
+  transactionid: '1234567890',
+  authcharindicator: 'A',
+  referencenumber: '123456789012',
+  validationcode: '1234',
+  authresponsecode: 'AB',
+})
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+RESULT:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+result.response # => '1'
+result.textresponse # => 'SUCCESS'
+result.transid # => '10750803'
+result.xref # => '3829708653'
+result.authcode # => '123456'
+result.orderid # => ''
+result.type # => 'sale'
+result.avsresponse # => ''
+result.cvvresponse # => 'M'
+result.coderesponse # => '100'
+result.codedescription # => 'Transaction was Approved'
 result.status # => '200'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -523,8 +574,8 @@ result.response # => '1'
 result.textresponse # => 'User with this name already exists. Please choose another name.'
 result.type # => 'addcustomer'
 result.customertoken # => 'F6OE0IN0I5HSV6AJ'
-result.paymenttoken_1 # => 'CPDFXJGSIZ5AL1WZ'
-result.paymenttoken_2 # => '3KDG1KFL69CE08N0'
+result.paymenttoken_1 # => 'UL1T9MMP0T3B2EQD'
+result.paymenttoken_2 # => '1BQEWD81VTKZH6QI'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -547,10 +598,10 @@ RESULT:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 result.response # => '1'
-result.textresponse # => 'Customer with token '4UYWY04RYLHK2CKJ' successfully created'
+result.textresponse # => 'Customer with token 'QR1KKWVQEF2CDEJB' successfully created'
 result.type # => 'addcustomer'
-result.customertoken # => '4UYWY04RYLHK2CKJ'
-result.paymenttoken_1 # => 'G3HKZYT8W551Z5QY'
+result.customertoken # => 'QR1KKWVQEF2CDEJB'
+result.paymenttoken_1 # => 'UF7IBSWT7R6AUNPK'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -573,10 +624,10 @@ RESULT:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 result.response # => '1'
-result.textresponse # => 'Customer with token '1A88HBMOK6V605GT' successfully created'
+result.textresponse # => 'Customer with token '2CGIRCV0DYY3JZEU' successfully created'
 result.type # => 'addcustomer'
-result.customertoken # => '1A88HBMOK6V605GT'
-result.paymenttoken_1 # => 'KHVXSV22K1IYHC1J'
+result.customertoken # => '2CGIRCV0DYY3JZEU'
+result.paymenttoken_1 # => 'SQJJX5PQN98PCWH4'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -599,10 +650,10 @@ RESULT:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 result.response # => '1'
-result.textresponse # => 'Customer with token 'H5L32C7FEM931FPO' successfully created'
+result.textresponse # => 'Customer with token 'SSMNLRTJ7W1VXPB2' successfully created'
 result.type # => 'addcustomer'
-result.customertoken # => 'H5L32C7FEM931FPO'
-result.paymenttoken_1 # => '9PV3C00FAZ925C13'
+result.customertoken # => 'SSMNLRTJ7W1VXPB2'
+result.paymenttoken_1 # => '2E2U28P74IM2ZV61'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -648,7 +699,7 @@ RESULT:
 result.response # => '1'
 result.textresponse # => 'SUCCESS'
 result.type # => 'addplan'
-result.plantoken # => '5TD61QRE6CGNZ0HR'
+result.plantoken # => 'ZSTU150DWYLP0A5S'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -658,7 +709,7 @@ CODE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 api.updateplan({
-  token: 'FLUVX5ZWY4Z3Z6CA',
+  token: 'R40XPOWL4U274RAH',
   plandesc: 'Example Plan Description',
 })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -679,7 +730,7 @@ CODE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 api.add_sequence({
-  token: 'FLUVX5ZWY4Z3Z6CA',
+  token: 'R40XPOWL4U274RAH',
   operationtype_1: 'addsequence',
   sequence_1: '1',
   amount_1: '50.00',
@@ -706,9 +757,9 @@ CODE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 api.assign_plan({
-  customertoken: 'MFIK3XS18Z55ZJVA',
-  plantoken: 'FLUVX5ZWY4Z3Z6CA',
-  paymenttoken: '3T4TNZHGIGYP3YHH',
+  customertoken: 'CVJZ7HWZQZB7PFS5',
+  plantoken: 'R40XPOWL4U274RAH',
+  paymenttoken: 'PZH0WHV6X05RDFYQ',
   amount: '100.00',
 })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -720,7 +771,7 @@ RESULT:
 result.response # => '1'
 result.textresponse # => 'Success'
 result.type # => 'assignplan'
-result.assignmenttoken # => 'GH4XIH6W7CCW9D8J'
+result.assignmenttoken # => 'RCAMPQH5ANCHLEVK'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -730,7 +781,7 @@ CODE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 api.delete_plan({
-  token: 'FLUVX5ZWY4Z3Z6CA',
+  token: 'R40XPOWL4U274RAH',
 })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -750,9 +801,9 @@ CODE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 api.delete_payment_type({
-  token: 'MFIK3XS18Z55ZJVA',
+  token: 'CVJZ7HWZQZB7PFS5',
   operationtype_1: 'deletepaytype',
-  token_1: '3T4TNZHGIGYP3YHH',
+  token_1: 'PZH0WHV6X05RDFYQ',
   achaccounttype_1: 'savings',
 })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -762,10 +813,10 @@ RESULT:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 result.response # => '1'
-result.textresponse # => 'Customer with token 'MFIK3XS18Z55ZJVA' successfully updated'
+result.textresponse # => 'Customer with token 'CVJZ7HWZQZB7PFS5' successfully updated'
 result.type # => 'updatecustomer'
-result.customertoken # => 'MFIK3XS18Z55ZJVA'
-result.paymenttoken_1 # => '3T4TNZHGIGYP3YHH'
+result.customertoken # => 'CVJZ7HWZQZB7PFS5'
+result.paymenttoken_1 # => 'PZH0WHV6X05RDFYQ'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -775,7 +826,7 @@ CODE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 api.delete_customer({
-  token: 'MFIK3XS18Z55ZJVA',
+  token: 'CVJZ7HWZQZB7PFS5',
 })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -807,7 +858,7 @@ RESULT:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 result.textresponse # => 'invoice has been successfully created'
-result.invoicenumber # => 'Inv-39566'
+result.invoicenumber # => 'Inv-39569'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -817,7 +868,7 @@ CODE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 api.get_invoice({
-  invoicenumber: 'Inv-39567',
+  invoicenumber: 'Inv-39570',
 })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -826,7 +877,7 @@ RESULT:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 result.textresponse # => 'Success'
-result.invoicenumber # => 'Inv-39567'
+result.invoicenumber # => 'Inv-39570'
 result.invoiceamount # => '212.9500'
 result.currency # => 'USD'
 result.invoicedate # => '10/15/2018'
@@ -840,7 +891,7 @@ CODE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 api.update_invoice({
-  invoicenumber: 'Inv-39567',
+  invoicenumber: 'Inv-39570',
   invoicestatus: 'active',
 })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -850,7 +901,7 @@ RESULT:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 result.textresponse # => 'Invoice has been successfully updated'
-result.invoicenumber # => 'Inv-39567'
+result.invoicenumber # => 'Inv-39570'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -860,7 +911,7 @@ CODE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 api.pay_invoice({
-  invoicenumber: 'Inv-39567',
+  invoicenumber: 'Inv-39570',
   cardnum: '4111111111111111',
   cardexp: '1019',
 })
@@ -871,8 +922,8 @@ RESULT:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 result.textresponse # => 'Invoice has been successfully paid'
-result.transid # => '10934187'
-result.invoicenumber # => 'Inv-39567'
+result.transid # => '10934201'
+result.invoicenumber # => 'Inv-39570'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -882,7 +933,7 @@ CODE:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 api.cancel_invoice({
-  invoicenumber: 'Inv-39568',
+  invoicenumber: 'Inv-39571',
   invoicestatusreason: 'Customer allergic to product',
 })
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -892,7 +943,7 @@ RESULT:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 result.textresponse # => 'invoice has been successfully canceled'
-result.invoicenumber # => 'Inv-39568'
+result.invoicenumber # => 'Inv-39571'
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -925,8 +976,8 @@ RESULT:
 
 result.response # => '00'
 result.textresponse # => 'SUCCESS'
-result.transid # => '10934188'
-result.xref # => '3865117428'
+result.transid # => '10934202'
+result.xref # => '3865124683'
 result.authcode # => '123456'
 result.type # => 'sale'
 result.coderesponse # => '100'
@@ -966,215 +1017,10 @@ RESULT:
 
 result.response # => '00'
 result.textresponse # => 'SUCCESS'
-result.transid # => '10934189'
-result.xref # => '3865117441'
+result.transid # => '10934203'
+result.xref # => '3865124693'
 result.authcode # => '123456'
 result.type # => 'sale'
-result.coderesponse # => '100'
-result.codedescription # => 'Transaction was Approved'
-result.status # => '200'
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-### Ewallet Simple Credit
-
-CODE:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-api.credit({
-  ewalletaccount: 'user@example.com',
-  ewallet_type: 'PayPal',
-  amount: '9.95',
-  currency: 'USD',
-})
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-RESULT:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-result.response # => '1'
-result.textresponse # => 'Successful'
-result.transid # => '10934190'
-result.xref # => 'XTCFKEWCELK9A'
-result.type # => 'credit'
-result.status # => '200'
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-### Fiserv Simple Sale
-
-CODE:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-api.sale({
-  cardnum: '4111111111111111',
-  cardexp: '1019',
-  amount: '9.95',
-})
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-RESULT:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-result.response # => '1'
-result.textresponse # => 'SUCCESS'
-result.transid # => '10934191'
-result.xref # => '3865117552'
-result.authcode # => '123456'
-result.type # => 'sale'
-result.coderesponse # => '100'
-result.codedescription # => 'Transaction was Approved'
-result.status # => '200'
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-### Fiserv Advanced Sale
-
-CODE:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-api.sale({
-  cardnum: '4111111111111111',
-  cardexp: '1019',
-  amount: '9.95',
-  cvv: '999',
-  currency: 'USD',
-  firstname: 'John',
-  lastname: 'Doe',
-  skunumber_1: '123',
-  skunumber_2: '456',
-  description_1: 'Blue widget',
-  description_2: 'Brown widget',
-  amount_1: '1.99',
-  amount_2: '2.99',
-  quantity_1: '1',
-  quantity_2: '2',
-  orderdesc: 'Order Description',
-  orderid: '11111',
-  cardipaddress: '8.8.8.8',
-  tax: '0.25',
-  shipamount: '1.25',
-  ponumber: '22222',
-  company: 'Sparrow One',
-  address1: '16100 N 71st Street',
-  address2: 'Suite 170',
-  city: 'Scottsdale',
-  state: 'AZ',
-  zip: '85254',
-  country: 'US',
-  email: 'john@norepy.com',
-  shipfirstname: 'Jane',
-  shiplastname: 'Doe',
-  shipcompany: 'Sparrow Two',
-  shipaddress1: '16100 N 72nd Street',
-  shipaddress2: 'Suite 171',
-  shipcity: 'Pheonix',
-  shipstate: 'AZ',
-  shipzip: '85004',
-  shipcountry: 'US',
-  shipphone: '6025551234',
-  shipemail: 'jane@noreply.com',
-})
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-RESULT:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-result.response # => '1'
-result.textresponse # => 'SUCCESS'
-result.transid # => '10934192'
-result.xref # => '3865117579'
-result.authcode # => '123456'
-result.orderid # => '11111'
-result.type # => 'sale'
-result.avsresponse # => 'N'
-result.cvvresponse # => 'M'
-result.coderesponse # => '100'
-result.codedescription # => 'Transaction was Approved'
-result.status # => '200'
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-### Star Card Simple Sale
-
-CODE:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-api.sale({
-  cardnum: '6019440000011111',
-  amount: '20.00',
-  CID: '52347800001',
-})
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-RESULT:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-result.response # => '1'
-result.textresponse # => 'SUCCESS'
-result.transid # => '10750791'
-result.xref # => '3829708548'
-result.authcode # => '123456'
-result.orderid # => ''
-result.type # => 'sale'
-result.avsresponse # => ''
-result.cvvresponse # => ''
-result.coderesponse # => '100'
-result.codedescription # => 'Transaction was Approved'
-result.status # => '200'
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-### Star Card Advanced Sale
-
-CODE:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-api.sale({
-  amount: '57.85',
-  cardnum: '6019440000011111',
-  CID: '12345678911',
-  cardexp: '1010',
-  cvv: '999',
-  skunumber_1: '5558779',
-  description_1: 'menssweaterblue',
-  amount_1: '50.00',
-  quantity_1: '1',
-  tax: '2.85',
-  shipamount: '5.00',
-  firstname: 'John',
-  lastname: 'Smith',
-  address1: '888 test address',
-  city: 'Los Angeles',
-  country: 'US',
-  state: 'CA',
-  phone: '222-444-2938',
-  shipfirstname: 'John',
-  shiplastname: 'Smith',
-  shipaddress1: '888 test address',
-  shipcity: 'Los Angeles',
-  shipstate: 'CA',
-  shipphone: '2224442938',
-})
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-RESULT:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-result.response # => '1'
-result.textresponse # => 'SUCCESS'
-result.transid # => '10750808'
-result.xref # => '3829708587'
-result.authcode # => '123456'
-result.orderid # => '11111'
-result.type # => 'sale'
-result.avsresponse # => 'N'
-result.cvvresponse # => ''
 result.coderesponse # => '100'
 result.codedescription # => 'Transaction was Approved'
 result.status # => '200'
