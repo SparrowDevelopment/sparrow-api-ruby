@@ -73,6 +73,21 @@ module SparrowOne
     end
     alias_method :getcustomer, :get_customer
 
+    def get_payment_type(params)
+      with_error_handling do
+        validate(params, requires: [:token])
+        post("getcustomer", params)
+      end
+    end
+
+    def update_payment_type(params)
+      with_error_handling do
+        validate(params, requires: [:token, :token_1])
+        post("updatecustomer", params.merge(operationtype_1: 'updatepaytype'))
+      end
+    end
+    alias_method :updatepaymenttype, :update_payment_type
+
     def delete_payment_type(params)
       with_error_handling do
         validate(params, requires: [:token, :token_1])
