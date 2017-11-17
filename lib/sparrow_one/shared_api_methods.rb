@@ -3,35 +3,35 @@ module SparrowOne
 
     def refund(params)
       with_error_handling do
-        validate(params, requires: [:amount, :transid])
+        params = validate(params, requires: [:amount, :transid])
         post("refund", params)
       end
     end
 
     def void(params)
       with_error_handling do
-        validate(params, requires: [:transid])
+        params = validate(params, requires: [:transid])
         post("void", params)
       end
     end
 
     def chargeback(params)
       with_error_handling do
-        validate(params, requires: [:transid, :reason])
+        params = validate(params, requires: [:transid, :reason])
         post("chargeback", params)
       end
     end
 
     def decrypt(params)
       with_error_handling do
-        validate(params, requires: [:fieldname, :token])
+        params = validate(params, requires: [:fieldname, :token])
         post("decrypt", params)
       end
     end
 
     def add_customer(params)
       with_error_handling do
-        validate(params, requires: [:firstname, :lastname])
+        params = validate(params, requires: [:firstname, :lastname])
         post("addcustomer", params)
       end
     end
@@ -39,7 +39,7 @@ module SparrowOne
 
     def update_customer(params)
       with_error_handling do
-        validate(params, requires: [:token])
+        params = validate(params, requires: [:token])
         post("updatecustomer", params)
       end
     end
@@ -50,7 +50,7 @@ module SparrowOne
         unless params.keys.select { |key| key.to_s =~ /token_\d*/ }.any?
           raise RequestError, "Add payment type must have customer token `token` and payment type token `token_#`."
         end
-        validate(params, requires: [:token, :operationtype_1])
+        params = validate(params, requires: [:token, :operationtype_1])
         post("updatecustomer", params)
       end
     end
@@ -60,14 +60,14 @@ module SparrowOne
           unless params.keys.select { |key| key.to_s =~ /token_\d*/ }.any?
             raise RequestError, "Add payment type must have customer token `token` and payment type token `token_#`."
           end
-          validate(params, requires: [:token, :operationtype_1])
+          params = validate(params, requires: [:token, :operationtype_1])
           post("updatecustomer", params)
         end
       end
 
     def get_customer(params)
       with_error_handling do
-        validate(params, requires: [:token])
+        params = validate(params, requires: [:token])
         post("getcustomer", params)
       end
     end
@@ -75,14 +75,14 @@ module SparrowOne
 
     def get_payment_type(params)
       with_error_handling do
-        validate(params, requires: [:token])
+        params = validate(params, requires: [:token])
         post("getcustomer", params)
       end
     end
 
     def update_payment_type(params)
       with_error_handling do
-        validate(params, requires: [:token, :token_1])
+        params = validate(params, requires: [:token, :token_1])
         post("updatecustomer", params.merge(operationtype_1: 'updatepaytype'))
       end
     end
@@ -90,7 +90,7 @@ module SparrowOne
 
     def delete_payment_type(params)
       with_error_handling do
-        validate(params, requires: [:token, :token_1])
+        params = validate(params, requires: [:token, :token_1])
         post("updatecustomer", params.merge(operationtype_1: 'deletepaytype'))
       end
     end
@@ -98,7 +98,7 @@ module SparrowOne
 
     def delete_customer(params)
       with_error_handling do
-        validate(params, requires: [:token])
+        params = validate(params, requires: [:token])
         post("deletecustomer", params)
       end
     end
@@ -106,7 +106,7 @@ module SparrowOne
 
     def add_plan(params)
       with_error_handling do
-        validate(params, requires: [:planname, :plandesc, :startdate])
+        params = validate(params, requires: [:planname, :plandesc, :startdate])
         post("addplan", params)
       end
     end
@@ -114,7 +114,7 @@ module SparrowOne
 
     def update_plan(params)
       with_error_handling do
-        validate(params, requires: [:token])
+        params = validate(params, requires: [:token])
         post("updateplan", params)
       end
     end
@@ -122,7 +122,7 @@ module SparrowOne
 
     def delete_plan(params)
       with_error_handling do
-        validate(params, requires: [:token])
+        params = validate(params, requires: [:token])
         post("deleteplan", params)
       end
     end
@@ -130,14 +130,14 @@ module SparrowOne
 
     def add_sequence(params)
       with_error_handling do
-        validate(params, requires: [:token])
+        params = validate(params, requires: [:token])
         post("updateplan", params)
       end
     end
 
     def assign_plan(params)
       with_error_handling do
-        validate(params, requires: [:customertoken, :plantoken, :paymenttoken])
+        params = validate(params, requires: [:customertoken, :plantoken, :paymenttoken])
         post("assignplan", params)
       end
     end
@@ -145,7 +145,7 @@ module SparrowOne
 
     def update_assignment(params)
       with_error_handling do
-        validate(params, requires: [:assignmenttoken])
+        params = validate(params, requires: [:assignmenttoken])
         post("updateassignment", params)
       end
     end
@@ -155,7 +155,7 @@ module SparrowOne
 
     def cancel_assignment(params)
       with_error_handling do
-        validate(params, requires: [:assignmenttoken])
+        params = validate(params, requires: [:assignmenttoken])
         post("cancelassignment", params)
       end
     end
@@ -165,7 +165,7 @@ module SparrowOne
 
     def create_invoice(params)
       with_error_handling do
-        validate(params, requires: [:invoicedate, :currency, :invoicestatus])
+        params = validate(params, requires: [:invoicedate, :currency, :invoicestatus])
         post("createmerchantinvoice", params)
       end
     end
@@ -173,14 +173,14 @@ module SparrowOne
 
     def get_invoice(params)
       with_error_handling do
-        validate(params, requires: [:invoicenumber])
+        params = validate(params, requires: [:invoicenumber])
         post("getinvoice", params)
       end
     end
 
     def update_invoice(params)
       with_error_handling do
-        validate(params, requires: [:invoicenumber])
+        params = validate(params, requires: [:invoicenumber])
         post("updateinvoice", params)
       end
     end
@@ -188,7 +188,7 @@ module SparrowOne
 
     def pay_invoice(params)
       with_error_handling do
-        validate(params, requires: [:invoicenumber])
+        params = validate(params, requires: [:invoicenumber])
         post("payinvoice", params)
       end
     end
@@ -196,7 +196,7 @@ module SparrowOne
 
     def cancel_invoice(params)
       with_error_handling do
-        validate(params, requires: [:invoicenumber, :invoicestatusreason])
+        params = validate(params, requires: [:invoicenumber, :invoicestatusreason])
         post("cancelinvoice", params)
       end
     end
@@ -204,7 +204,7 @@ module SparrowOne
 
     def cancel_invoice_by_customer(params)
       with_error_handling do
-        validate(params, requires: [:invoicenumber, :invoicestatusreason])
+        params = validate(params, requires: [:invoicenumber, :invoicestatusreason])
         post("cancelinvoicebycustomer", params)
       end
     end

@@ -10,6 +10,8 @@ end
 require "sparrow_one/version"
 require "sparrow_one/validator"
 
+require "sparrow_one/card"
+
 require "sparrow_one/shared_api_methods"
 require "sparrow_one/api"
 require "sparrow_one/api_types/ach"

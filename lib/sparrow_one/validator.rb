@@ -1,10 +1,28 @@
 module SparrowOne
   class Validator
 
-    attr_reader :params
+    attr_accessor :params
 
     def self.validate(params)
       self.new(params).validate
+    end
+
+    def sparrow_params
+      params.select { |k, v| self.fields.include?(k) }
+    end
+
+    def fields
+      [] # Abstract method for API Objects
+    end
+
+    def method_missing(meth, *args, &blk)
+      if fields.include?(meth)
+        @params[meth]
+      elsif fields.include?((meth.to_s.gsub(/=\z/, '').to_sym))
+        @params[(meth.to_s.gsub(/=\z/, '')).to_sym] = args.first
+      else
+        super
+      end
     end
 
     def initialize(params)
@@ -94,6 +112,8 @@ module SparrowOne
     # Anything that passes the "requires" validator is permitted to be blank,
     # so we will allow anything that matches the regex *or* is blank.
     def matches(key, regex, plaintext)
+      # puts "Matching #{key} against #{regex}"
+      # puts "Value: #{params[key]}"
       unless params[key] =~ regex || params[key].to_s.size == 0
         raise SparrowOne::RequestError.new(plaintext)
       end
@@ -125,9 +145,11 @@ module SparrowOne
 
     def is_mmyy(*keys)
       keys.each do |key|
-        matches(key, /\A\d{4}\z/, "#{key.to_s} must be in the format 'MMYY' (e.g., 0711 is July 2011)")
+        matches(key, FORMATS[:mmyy], "#{key.to_s} must be in the format 'MMYY' (e.g., 0711 is July 2011)")
       end
     end
+
+    FORMATS = {mmyy: /\A\d{4}\z/}
 
     # Deliberately permissive - the absence of an "@" suggests the user is
     # attempting to provide something other than an email address, which is

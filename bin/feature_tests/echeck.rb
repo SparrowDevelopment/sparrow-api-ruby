@@ -3,7 +3,7 @@ module SparrowOne
 
     def sale(params)
       with_error_handling do
-        validate(params, requires: [:bankname, :routing, :account, :achaccounttype,
+        params = validate(params, requires: [:bankname, :routing, :account, :achaccounttype,
                                     :amount, :firstname, :lastname, :address1, :city,
                                     :state, :zip, :country])
         post("sale", params)
@@ -12,7 +12,7 @@ module SparrowOne
 
     def refund(params)
       with_error_handling do
-        validate(params, requires: [:bankname, :routing, :account, :achaccounttype,
+        params = validate(params, requires: [:bankname, :routing, :account, :achaccounttype,
                                     :amount, :firstname, :lastname, :address1, :city,
                                     :state, :zip, :country])
         post("refund", params)
@@ -21,7 +21,7 @@ module SparrowOne
 
     def credit(params)
       with_error_handling do
-        validate(params, requires: [:bankname, :routing, :account, :achaccounttype,
+        params = validate(params, requires: [:bankname, :routing, :account, :achaccounttype,
                                     :amount, :firstname, :lastname, :address1, :city,
                                     :state, :zip, :country])
         post("refund", params)

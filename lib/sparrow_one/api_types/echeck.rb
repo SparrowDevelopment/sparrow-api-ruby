@@ -1,27 +1,27 @@
 module SparrowOne
   class EcheckAPI < SparrowOne::API
 
-    def sale(params)
+    def sale(*params)
       with_error_handling do
-        validate(params, requires: [:bankname, :routing, :account, :achaccounttype,
+        params = validate(flatten(params), requires: [:bankname, :routing, :account, :achaccounttype,
                                     :amount, :firstname, :lastname, :address1, :city,
                                     :state, :zip, :country])
         post("sale", params)
       end
     end
 
-    def refund(params)
+    def refund(*params)
       with_error_handling do
-        validate(params, requires: [:bankname, :routing, :account, :achaccounttype,
+        params = validate(flatten(params), requires: [:bankname, :routing, :account, :achaccounttype,
                                     :amount, :firstname, :lastname, :address1, :city,
                                     :state, :zip, :country])
         post("refund", params)
       end
     end
 
-    def credit(params)
+    def credit(*params)
       with_error_handling do
-        validate(params, requires: [:bankname, :routing, :account, :achaccounttype,
+        params = validate(flatten(params), requires: [:bankname, :routing, :account, :achaccounttype,
                                     :amount, :firstname, :lastname, :address1, :city,
                                     :state, :zip, :country])
         post("refund", params)
