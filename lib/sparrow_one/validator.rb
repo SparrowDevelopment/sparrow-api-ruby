@@ -7,24 +7,6 @@ module SparrowOne
       self.new(params).validate
     end
 
-    def sparrow_params
-      params.select { |k, v| self.fields.include?(k) }
-    end
-
-    def fields
-      [] # Abstract method for API Objects
-    end
-
-    def method_missing(meth, *args, &blk)
-      if fields.include?(meth)
-        @params[meth]
-      elsif fields.include?((meth.to_s.gsub(/=\z/, '').to_sym))
-        @params[(meth.to_s.gsub(/=\z/, '')).to_sym] = args.first
-      else
-        super
-      end
-    end
-
     def initialize(params)
       @params = params
     end
@@ -133,13 +115,13 @@ module SparrowOne
 
     def is_currency(*keys)
       keys.each do |key|
-        matches(key, /\A\d+\.\d+\z/, "#{key.to_s} must be in currency format (d.dd)")
+        matches(key, FORMATS[:currency], "#{key.to_s} must be in currency format (d.dd)")
       end
     end
 
     def is_numeric(*keys)
       keys.each do |key|
-        matches(key, /\A\d*\z/, "#{key.to_s} must be numeric")
+        matches(key, FORMATS[:numeric], "#{key.to_s} must be numeric")
       end
     end
 
@@ -149,7 +131,18 @@ module SparrowOne
       end
     end
 
-    FORMATS = {mmyy: /\A\d{4}\z/}
+    FORMATS = {mmyy: /\A\d{4}\z/,
+               numeric: /\A\d*\z/,
+               currency: /\A\d+\.\d+\z/,
+               email: /\A(([^\n@,]+@[^\n@,]+){1}[^\n,@]+$)|([^\n@,]+@.+,.+@.+$)/,
+               ip: /\A(\d{1,3}\.){3}\d{1,3}\z/,
+               alpha: /\A[a-zA-Z]*\z/,
+               uppercase: /\A[^a-z]*\z/,
+               alphanumeric: /\A[A-Z0-9]+\z/i,
+               boolean: /\A(true|false)\z/i,
+               date: /\A((0[1-9])|(1[012]))\/(([0][1-9])|([1-2][0-9])|(3[0-1]))\/\d{4}\z/,
+               time: /\A(([0-1][0-9])|(2[0-3])):([0-5][0-9])\z/,
+             }
 
     # Deliberately permissive - the absence of an "@" suggests the user is
     # attempting to provide something other than an email address, which is
@@ -162,37 +155,37 @@ module SparrowOne
     # least one comma between them.
     def is_email(*keys)
       keys.each do |key|
-        matches(key, /\A(([^\n@,]+@[^\n@,]+){1}[^\n,@]+$)|([^\n@,]+@.+,.+@.+$)/, "#{key} must be a comma-separated list of email addresses")
+        matches(key, FORMATS[:email], "#{key} must be a comma-separated list of email addresses")
       end
     end
 
     def is_ip(*keys)
       keys.each do |key|
-        matches(key, /\A(\d{1,3}\.){3}\d{1,3}\z/, "#{key} must be in the form ddd.ddd.ddd.ddd")
+        matches(key, FORMATS[:ip], "#{key} must be in the form ddd.ddd.ddd.ddd")
       end
     end
 
     def is_alpha(*keys)
       keys.each do |key|
-        matches(key, /\A[a-zA-Z]*\z/, "#{key} must be letters only")
+        matches(key, FORMATS[:alpha], "#{key} must be letters only")
       end
     end
 
     def is_uppercase(*keys)
       keys.each do |key|
-        matches(key, /\A[^a-z]*\z/, "#{key} must have upper-cased letters")
+        matches(key, FORMATS[:uppercase], "#{key} must have upper-cased letters")
       end
     end
 
     def is_alphanumeric(*keys)
       keys.each do |key|
-        matches(key, /\A[A-Z0-9]+\z/i, "#{key} must be alphanumeric")
+        matches(key, FORMATS[:alphanumeric], "#{key} must be alphanumeric")
       end
     end
 
     def is_boolean(*keys)
       keys.each do |key|
-        matches(key, /\A(true|false)\z/i, "#{key} must be a boolean value ('true' or 'false')")
+        matches(key, FORMATS[:boolean], "#{key} must be a boolean value ('true' or 'false')")
       end
     end
 
@@ -203,13 +196,45 @@ module SparrowOne
 
     def is_date(*keys)
       keys.each do |key|
-        matches(key, /\A((0[1-9])|(1[012]))\/(([0][1-9])|([1-2][0-9])|(3[0-1]))\/\d{4}\z/, "#{key} must be a date in the form MM/DD/YYYY")
+        matches(key, FORMATS[:date], "#{key} must be a date in the form MM/DD/YYYY")
+      end
+    end
+
+    def coerce_date(*keys)
+      keys.each do |key|
+        next if params[key] =~ FORMATS[:date] || params[key].to_s.size == 0
+        if params[key].is_a? Date
+          params[key] = params[key].strftime('%m/%d/%Y')
+        else
+          params[key] = Date.parse(params[key]).strftime('%m/%d/%Y')
+        end
       end
     end
 
     def is_time(*keys)
       keys.each do |key|
-        matches(key, /\A(([0-1][0-9])|(2[0-3])):([0-5][0-9])\z/, "#{key} must be a time in the form HH:MM")
+        matches(key, FORMATS[:time], "#{key} must be a time in the form HH:MM")
+      end
+    end
+
+    def coerce_mmyy(*keys)
+      keys.each do |key|
+        next if params[key] =~ FORMATS[:mmyy] || params[key].to_s.size == 0
+        if params[key].is_a? Date
+          params[key] = params[key].strftime("%m%y")
+        else
+          params[key] = Date.parse(params[key]).strftime("%m%y")
+        end
+      end
+    end
+
+    def coerce_time(*keys)
+      keys.each do |key|
+        if params[key].is_a? Time
+          params[key] = params[key].strftime('%H:%M')
+        else
+          params[key] = Time.parse(params[key]).strftime('%H:%M')
+        end
       end
     end
   end

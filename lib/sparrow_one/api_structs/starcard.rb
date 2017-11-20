@@ -1,13 +1,8 @@
 module SparrowOne
-  class Card < Validator
+  class StarCard < APIStruct
 
-    def initialize(params)
-      @params = params
-      validate
-    end
-
-    def fields
-      [:cardnum, :cardexp, :cvv]
+    def requires
+      [:cardnum, :cardexp, :cvv, :CID]
     end
 
     def validate
@@ -16,7 +11,7 @@ module SparrowOne
     end
 
     def assist_cardexp
-      return if params[:cardexp] =~ FORMATS[:mmyy]
+      return if params[:cardexp] =~ SparrowOne::Validator::FORMATS[:mmyy]
       if params[:cardexp].is_a?(String)
         params[:cardexp] = DateTime.parse(params[:cardexp]).strftime("%m%y")
       elsif params[:cardexp].is_a?(Date)
@@ -25,6 +20,7 @@ module SparrowOne
         raise "Invalid class in field :cardexp, must be String or Date"
       end
     end
+
   end
 
 
