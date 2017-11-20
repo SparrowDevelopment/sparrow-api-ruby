@@ -1,3 +1,5 @@
+require_relative '../spec_helper'
+
 describe SparrowOne::Validator do
   let(:test_validator) { SparrowOne::Validator }
   it "exists" do

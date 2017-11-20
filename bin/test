@@ -3,10 +3,11 @@
 require "bundler/setup"
 require "sparrow_one"
 require_relative "../test_keys"
+require_relative "feature_tests/runner"
 require_relative "feature_tests/card_api_test"
 require_relative "feature_tests/ach_api_test"
 require_relative "feature_tests/echeck_api_test"
-require_relative "feature_tests/common_api_test"
+require_relative "feature_tests/shared_api_test"
 require_relative "feature_tests/ewallet_api_test"
 require_relative "feature_tests/cash_api_test"
 require_relative "feature_tests/starcard_api_test"
@@ -27,6 +28,10 @@ if ARGV[0].to_s.match(/c/) || @run_all
   CardAPITest.run({ verbose: @verbose })
 end
 
+if ARGV[0].to_s.match(/f/) || @run_all
+  CardFiservAPITest.run({ verbose: @verbose })
+end
+
 if ARGV[0].to_s.match(/z/) || @run_all
   CashAPITest.run({ verbose: @verbose })
 end
@@ -44,5 +49,5 @@ if ARGV[0].to_s.match(/s/) || @run_all
 end
 
 if ARGV[0].to_s.match(/x/) || @run_all
-  CommonAPITest.run({ verbose: @verbose })
+  SharedAPITest.run({ verbose: @verbose })
 end

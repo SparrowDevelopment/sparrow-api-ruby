@@ -16,10 +16,6 @@ module SparrowOne
       end
     end
 
-    # Create, Update, Retrieve, Cancel, Cancel(By Customer), PayCredit, PayBank
-    # def invoice(params)
-    # end
-
     private
 
     def with_error_handling(&blk)
@@ -30,12 +26,25 @@ module SparrowOne
       end
     end
 
+    def flatten(args)
+      Hash.new.tap do |params|
+        args.each do |arg|
+          if arg.respond_to?(:sparrow_params)
+            params.merge!(arg.sparrow_params)
+          else
+            params.merge!(arg)
+          end
+        end
+      end
+    end
+
     def validate(given_params, options)
       validator = Validator.new(given_params)
       if options[:requires].any?
         validator.requires(options[:requires])
       end
       validator.validate
+      given_params
     end
 
     def request_body(params)
