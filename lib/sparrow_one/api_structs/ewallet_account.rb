@@ -1,9 +1,8 @@
 module SparrowOne
-  class ECheckAccount < APIStruct
+  class EWalletAccount < APIStruct
 
     def requires
-      [:bankname, :routing, :account, :achaccounttype, :amount, :firstname,
-                  :lastname, :address1, :city, :state, :zip, :country]
+      [:ewalletaccount]
     end
 
   end
