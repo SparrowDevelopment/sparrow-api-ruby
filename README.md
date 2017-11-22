@@ -25,7 +25,40 @@ This gem performs client-side validation of request data prior to making a netwo
 
 If a request fails client-side validation, a Response object will be returned carrying status '400' and a text_response describing the detected error.
 
-### Examples
+### Convenience Objects
+To make parameter management a little easier, the SparrowOne gem supports the use of convenience objects. These objects validate the format of parameters when created, and will also validate the presence of certain required fields. The built-in objects are:
+ - SparrowOne::ACHAccount (requires bankname, routing, account, achaccounttype, achaccountsubtype)
+ - SparrowOne::Card (requires cardnum, cardexp, cvv)
+ - SparrowOne::EcheckAccount (requires bankname, routing, account, achaccounttype, amount, firstname,
+             lastname, address1, city, state, zip, country)
+ - SparrowOne::EwalletAccount (requires ewalletaccount)
+ - SparrowOne::Starcard (requires cardnum, cardexp, cvv, CID)
+
+The API will accept one or more convenience objects in place of individual parameters. For example:
+
+```
+  api = SparrowOne::CardAPI.new($M_KEY)
+  convenient_card = SparrowOne::Card.new(cardnum: '4111111111111111', cardexp: '1021', cvv: '999')
+  api.sale(convenient_card, amount: '499.95')
+```
+
+Additionally, you can easily adapt your own classes to the SparrowOne gem by defining a `sparrow_params` method, returning a hash of the values you'd like to send to the API. For example:
+```
+class User < ActiveRecord::Base
+
+  def sparrow_params
+    { ewalletaccount: self.email }
+  end
+
+end
+
+user = User.first
+api = SparrowOne::EWallet.new($M_KEY)
+api.credit(user, amount: '87.50')
+
+```
+
+### API Examples
 
 Example CardAPI `#sale` request:
 ```
