@@ -1,4 +1,5 @@
 class DocBlock
+  include Comparable
   def initialize(name, method, params, result)
     @name = name
     @method = method
@@ -6,8 +7,9 @@ class DocBlock
     @result = result
   end
   attr_reader :name, :method, :params, :result
-  def <=>(value)
-    name <=> value
+
+  def <=>(other_object)
+    self.name <=> other_object.name
   end
 
   def to_s
@@ -59,19 +61,19 @@ class SparrowOne::SampleGenerator < SparrowOne::TestRunner
 
   def run
     doc = []
-    puts "Generating ACH"
+    # puts "Generating ACH"
     doc += ach_examples
-    puts "Generating Cards"
+    # puts "Generating Cards"
     doc += cards_examples
-    puts "Generating Data Vault"
+    # puts "Generating Data Vault"
     doc += data_vault_examples
-    puts "Generating ECheck"
+    # puts "Generating ECheck"
     doc += echeck_examples
-    puts "Generating EWallet"
+    # puts "Generating EWallet"
     doc += ewallet_examples
-    puts "Generating Fiserv"
+    # puts "Generating Fiserv"
     doc += fiserv_examples
-    puts "Generating Starcard"
+    # puts "Generating Starcard"
     doc += starcard_examples
     doc.select! { |element| element.is_a? DocBlock }
     puts doc.sort.map(&:to_s)
