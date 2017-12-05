@@ -25,7 +25,40 @@ This gem performs client-side validation of request data prior to making a netwo
 
 If a request fails client-side validation, a Response object will be returned carrying status '400' and a text_response describing the detected error.
 
-### Examples
+### Convenience Objects
+To make parameter management a little easier, the SparrowOne gem supports the use of convenience objects. These objects validate the format of parameters when created, and will also validate the presence of certain required fields. The built-in objects are:
+ - SparrowOne::ACHAccount (requires bankname, routing, account, achaccounttype, achaccountsubtype)
+ - SparrowOne::Card (requires cardnum, cardexp, cvv)
+ - SparrowOne::EcheckAccount (requires bankname, routing, account, achaccounttype, amount, firstname,
+             lastname, address1, city, state, zip, country)
+ - SparrowOne::EwalletAccount (requires ewalletaccount)
+ - SparrowOne::Starcard (requires cardnum, cardexp, cvv, CID)
+
+The API will accept one or more convenience objects in place of individual parameters. For example:
+
+```
+  api = SparrowOne::CardAPI.new($M_KEY)
+  convenient_card = SparrowOne::Card.new(cardnum: '4111111111111111', cardexp: '1021', cvv: '999')
+  api.sale(convenient_card, amount: '499.95')
+```
+
+Additionally, you can easily adapt your own classes to the SparrowOne gem by defining a `sparrow_params` method, returning a hash of the values you'd like to send to the API. For example:
+```
+class User < ActiveRecord::Base
+
+  def sparrow_params
+    { ewalletaccount: self.email }
+  end
+
+end
+
+user = User.first
+api = SparrowOne::EWallet.new($M_KEY)
+api.credit(user, amount: '87.50')
+
+```
+
+### API Examples
 
 Example CardAPI `#sale` request:
 ```
@@ -39,17 +72,19 @@ Example CardAPI `#sale` request:
 
 Example CardAPI `#sale` request missing required parameters:
 ```
-api = SparrowOne::CardAPI.new('card_mkey_goes_here')
-response = api.sale(cardnum: '1234567890123456')
-response.success?
-  # => false
-response.ok?
-  # => true
-response.transaction
-  # => nil
-response.text_response
-  # => 'Error in request sale: missing parameters: cardexp, amount'
+  api = SparrowOne::CardAPI.new('card_mkey_goes_here')
+  response = api.sale(cardnum: '1234567890123456')
+  response.success?
+    # => false
+  response.ok?
+    # => true
+  response.transaction
+    # => nil
+  response.text_response
+    # => 'Error in request sale: missing parameters: cardexp, amount'
 ```
+
+More examples can be found in the EXAMPLES.md file.
 
 ### CardAPI Methods
   - `#sale`: requires cardnum, cardexp, amount
@@ -59,6 +94,49 @@ response.text_response
   - `#balance`: requires cardnum
   - `#verify`: requires cardnum, cardexp. `amount` is automatically set to '0.00'.
   - `#passenger_sale`: requires cardnum, amount, cardexp, amount, cardexp, passengername, airportcode1, airlinecodenumber, ticketnumber, flightdatecoupon1, flightdeparturetimecoupon1, approvalcode, authcharindicator, validationcode, authresponsecode
+
+### FiservAPI Methods
+The interface for the FiservAPI is identical to the interface for the CardAPI.
+
+### ACHAPI Methods
+  - `sale`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount, firstname, lastname
+  - `refund`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount
+  - `credit`: requires bankname, routing, account, achaccounttype, achaccountsubtype, amount
+
+### EcheckAPI Methods
+ - `sale`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
+  - `refund`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
+ - `credit`: requires bankname, routing, account, achaccounttype, amount, firstname, lastname, address1, city, state, zip, country
+
+### EwalletAPI Methods
+  - `credit`: requires ewalletaccount, amount
+  Please note that the EWallet API interface can only issue credits. For sales, you must use the Checkout API: The customer must be directed to the PayPal Express Checkout page where they will login to their PayPal account to pay securely.
+
+### StarcardAPI Methods
+    - `sale`: requires cardnum, :cardexp, :amount, :CID
+
+### Data Vault Methods
+These methods are for interacting with the Data Vault, and will work with any of this gem's API objects.
+  - `add_customer`: requires firstname, lastname
+  - `get_customer`: requires token
+  - `update_customer`: requires token
+  - `delete_customer`: requires token
+  - `add_payment_type`: requires token, token_#, operationtype_#
+  - `delete_payment_type`: requires token, token_#, operationtype_#
+  - `add_plan`: requires planname, plandesc, startdate
+  - `update_plan`: requires token
+  - `add_sequence`: requires token, operationtype_1='addsequence', sequence_1, amount_1, scheduletype_1, scheduleday_1, duration_1
+  - `assign_plan`: requires customertoken, plantoken, paymenttoken
+  - `update_assignment`: requires assignmenttoken
+  - `cancel_assignment`: requires assignmenttoken
+  - `delete_plan`: requires token
+  - `create_invoice`: requires invoicedate, currency, invoicestatus
+  - `get_invoice`: requires invoicenumber
+  - `update_invoice`: requires invoicenumber
+  - `pay_invoice`: requires invoicenumber
+  - `cancel_invoice`: requires invoicenumber, invoicestatusreason
+  - `cancel_invoice_by_customer`: requires invoicenumber, invoicestatusreason
+  - `decrypt`: requires fieldname, token
 
 ## License
 
